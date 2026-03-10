@@ -2,11 +2,13 @@
 
 ## Executive Summary
 
-This three-part strategic analysis evaluates the expansion and operational efficiency of the neobank NitroBank across Latin America. By tracking **over 1 million potential users across Brazil, Mexico, and Colombia** between January 2024 and January 2026, this report identifies the technical bottlenecks, financial drivers, and product innovations required to dominate the LATAM fintech landscape.
+This three-part strategic analysis evaluates the expansion and operational efficiency of the neobank **NitroBank** across Latin America. By tracking **over 1 million potential users across Brazil, Mexico, and Colombia** between January 2024 and January 2026, this report identifies the technical bottlenecks, financial drivers, and product innovations required to dominate the LATAM fintech landscape.
 
 * **Part 1: Growth & Acquisition:** A diagnostic breakdown of top-of-funnel conversion, identifying a 67% Document Submission "Wall" and the $0 marketing-spend opportunity to unlock explosive user growth by resolving technical KYC crashes to recover 301,500 "stuck" users.
 * **Part 2: Unit Economics & Profitability:** An analysis of the "Profitability Paradox," shifting strategy away from low-margin volume toward Mexico’s elite **1.15% Take Rate** and high-LTV referral channels.
 * **Part 3: Transaction Success & Friction Removal:** A deep dive into **>145,000 transactions** to validate market stability and transform "Insufficient Funds" declines into a high-margin micro-credit product line.
+
+**Strategic Imperative:** By repairing the KYC ingestion pipeline, pivoting acquisition to Mexico's high-yield segments, and monetizing declined transactions through a new micro-credit product, NitroBank can immediately transition from a low-margin "wallet" into a highly profitable, full-service digital bank.
 
 
 ### Data Architecture & Scope 
@@ -17,11 +19,9 @@ This project follows a **Medallion Architecture**. The Entity Relationship Diagr
 
 **Silver layer scale and data volume:**
 
-* **silver_events** (fact table): **1.62M+** event records processed, capturing detailed user interactions, device specifications, and marketing attribution.
-* **silver_users**: **450K+** unique registered users analyzed, deduplicated and tracking account creation timelines across various countries and marketing sources.
-* **silver_transactions** (fact table): **145K+** transaction records processed, monitoring payment amounts, transaction statuses, and decline reasons.
-
-
+* **silver_events** (fact table): **1.62M+** event records processed, capturing detailed user interactions, device specifications, and marketing attribution. Optimized via liquid clustering by `country`, `event_name`, and `event_timestamp`. Features deterministic MD5 surrogate key generation and strict deduplication by user, event, and timestamp.
+* **silver_users** (dimension table): **450K+** unique registered users analyzed. Filtered strictly for registered accounts (excluding ghost users) and deduplicated by user ID. Highly optimized for regional and temporal queries via clustering on `country` and `user_created_at`.
+* **silver_transactions** (fact table): **145K+** transaction records processed, monitoring payment amounts, transaction statuses, and decline reasons. Deduplicated by unique transaction ID and clustered by `ts_created_at` and `user_id` for rapid financial and time-series reporting.
 
 
 
