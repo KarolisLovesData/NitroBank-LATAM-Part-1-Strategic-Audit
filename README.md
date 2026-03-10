@@ -10,9 +10,9 @@ This three-part strategic analysis evaluates the expansion and operational effic
 * **Part 3: Transaction Success And Friction Removal:** A deep dive into **>145,000 transactions** to validate market stability and transform "Insufficient Funds" declines into a high-margin micro-credit product line.
 
 ## PART 1: GROWTH AND ACQUISITION  
+<small>*[Access the Gold Layer SQL Pipeline used to generate these funnel insights](Analytics_Engineering/Part1_Gold_Layer_Funnel.sql)*</small>
 
 ### 1. THE DIVIDE: ELITE RETENTION VS. ONBOARDING FAILURE
-
 NitroBank is a "unicorn" product hidden behind a broken door. We have exceptional product-market fit, but a single operational bottleneck is trapping massive, zero-CAC revenue. Optimizing our onboarding to an industry-standard 60% completion rate will trigger explosive bottom-up growth with **$0 in additional marketing spend.**
 
 * **The KYC Wall:** We are losing **67%** of our acquired leads (~301,500) precisely at Document Submission.
