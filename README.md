@@ -9,9 +9,12 @@ This three-part strategic analysis evaluates the expansion and operational effic
 * **Part 2: Unit Economics and profitability:** An analysis of the "Profitability Paradox," shifting strategy away from low-margin volume toward Mexico’s elite **1.15% Take Rate** and high-LTV referral channels.
 * **Part 3: Transaction Success And Friction Removal:** A deep dive into **>145,000 transactions** to validate market stability and transform "Insufficient Funds" declines into a high-margin micro-credit product line.
 
-## Data Architecture & Scope 
+### Data Architecture & Model
 
-<img src="./Visuals/Data_Lineage.png" alt="lineage" width="700">
+This project follows a **Medallion Architecture**. The Entity Relationship Diagram (ERD) below represents the **Silver Layer**, which serves as the cleaned, relational source of truth.
+
+
+<img src="./Visuals/Data_Lineage.png" alt="funnel" width="800">
 
 ## Part 1: Growth and Acquisition 
 <small>*[Access the Gold Layer SQL Pipeline used to generate these funnel insights](Analytics_Engineering/Part1_Gold_Layer_Funnel.sql)*</small>
