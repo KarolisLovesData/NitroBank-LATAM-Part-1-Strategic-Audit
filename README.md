@@ -1,21 +1,30 @@
 # NitroBank-LATAM-Fintech-Growth-Audit
 
-
 ## Executive Summary
 
-This three-part strategic analysis evaluates the expansion and operational efficiency of NitroBank across Latin America. By tracking **over 1 million potential users across Brazil, Mexico, and Colombia** between January 2024 and January 2026, this report identifies the technical bottlenecks, financial drivers, and product innovations required to dominate the LATAM fintech landscape.
+This three-part strategic analysis evaluates the expansion and operational efficiency of the neobank NitroBank across Latin America. By tracking **over 1 million potential users across Brazil, Mexico, and Colombia** between January 2024 and January 2026, this report identifies the technical bottlenecks, financial drivers, and product innovations required to dominate the LATAM fintech landscape.
 
-* **Part 1: Growth & Acquisition:** A diagnostic breakdown of top-of-funnel conversion, identifying a 67% Document Submission "Wall" and the $0 marketing-spend opportunity to unlock explosive user growth.
-* **Part 2: Unit Economics and profitability:** An analysis of the "Profitability Paradox," shifting strategy away from low-margin volume toward Mexico’s elite **1.15% Take Rate** and high-LTV referral channels.
-* **Part 3: Transaction Success And Friction Removal:** A deep dive into **>145,000 transactions** to validate market stability and transform "Insufficient Funds" declines into a high-margin micro-credit product line.
+* **Part 1: Growth & Acquisition:** A diagnostic breakdown of top-of-funnel conversion, identifying a 67% Document Submission "Wall" and the $0 marketing-spend opportunity to unlock explosive user growth by resolving technical KYC crashes to recover 301,500 "stuck" users.
+* **Part 2: Unit Economics & Profitability:** An analysis of the "Profitability Paradox," shifting strategy away from low-margin volume toward Mexico’s elite **1.15% Take Rate** and high-LTV referral channels.
+* **Part 3: Transaction Success & Friction Removal:** A deep dive into **>145,000 transactions** to validate market stability and transform "Insufficient Funds" declines into a high-margin micro-credit product line.
 
-### Data Architecture & Model
 
-This project follows a **Medallion Architecture**. The Entity Relationship Diagram (ERD) below represents the **Silver Layer**, which serves as the cleaned, relational source of truth.
+### Data Architecture & Scope 
+
+This project follows a **Medallion Architecture**. The Entity Relationship Diagram (ERD) below represents the **Silver Layer**, which serves as the cleaned, relational source of truth. Full  **Medallion Transformation** flow and **Directed Acyclic Graph (DAG)** can be accessed [HERE] in Analytics Engineering part. 
 
 <img src="./Visuals/ERD.png" alt="funnel" width="700">
 
-<img src="./Visuals/Data_Lineage.png" alt="funnel" width="800">
+**Silver layer scale and data volume:**
+
+* **silver_events** (fact table): **1.62M+** event records processed, capturing detailed user interactions, device specifications, and marketing attribution.
+* **silver_users**: **450K+** unique registered users analyzed, deduplicated and tracking account creation timelines across various countries and marketing sources.
+* **silver_transactions** (fact table): **145K+** transaction records processed, monitoring payment amounts, transaction statuses, and decline reasons.
+
+
+
+
+
 
 ## Part 1: Growth and Acquisition 
 <small>*[Access the Gold Layer SQL Pipeline used to generate these funnel insights](Analytics_Engineering/Part1_Gold_Layer_Funnel.sql)*</small>
