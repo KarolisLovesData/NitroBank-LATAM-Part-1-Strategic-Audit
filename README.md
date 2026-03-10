@@ -11,6 +11,8 @@ This three-part strategic analysis evaluates the expansion and operational effic
 
 ## Data Architecture & Scope 
 
+<img src="./Visuals/Data_Lineage.png" alt="lineage" width="700">
+
 ## Part 1: Growth and Acquisition 
 <small>*[Access the Gold Layer SQL Pipeline used to generate these funnel insights](Analytics_Engineering/Part1_Gold_Layer_Funnel.sql)*</small>
 
