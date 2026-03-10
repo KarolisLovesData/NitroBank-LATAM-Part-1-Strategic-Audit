@@ -43,9 +43,9 @@ NitroBank is a "unicorn" product hidden behind a broken door. We have exceptiona
 * **Correct the ROI Baseline:** Do not assume the 90.3% organic funding rate will apply to an incentivized cohort. Users motivated by cash bonuses inherently show higher immediate churn and lower long-term funding rates.
 * **Deploy Localized Tiers & Messaging:** Replace the generic $5 USD offer with localized, psychologically round numbers (in the Spanish or Portuguese if the account was created in these languages) that feel native and substantial in each market:
 
-     <div align="center">
+  
   <img src="./Visuals/incentive_tiers.png" alt="Incentive tiers" width="350">
-</div>
+
 
 * **Gated A/B Testing:** Deploy a recovery campaign to the **301,500 "Stuck" users**. It is critical to maintain a strict hold on this spend until Phase 1 validates that the technical UI crashes are resolved.
 
