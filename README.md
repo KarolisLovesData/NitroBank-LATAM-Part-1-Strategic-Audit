@@ -13,6 +13,7 @@ This three-part strategic analysis evaluates the expansion and operational effic
 
 This project follows a **Medallion Architecture**. The Entity Relationship Diagram (ERD) below represents the **Silver Layer**, which serves as the cleaned, relational source of truth.
 
+<img src="./Visuals/ERD.png" alt="funnel" width="700">
 
 <img src="./Visuals/Data_Lineage.png" alt="funnel" width="800">
 
