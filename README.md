@@ -17,20 +17,17 @@ This project follows a **Medallion Architecture**. The Entity Relationship Diagr
 
 <img src="./Visuals/ERD.png" alt="funnel" width="700">
 
-**Silver layer scale and data volume:**
+### Audit Scale & Data Volume
 
-* **silver_events** (fact table): **1.62M+** event records processed, capturing detailed user interactions, device specifications, and marketing attribution. Optimized via liquid clustering by `country`, `event_name`, and `event_timestamp`. Features deterministic MD5 surrogate key generation and strict deduplication by user, event, and timestamp.
-* **silver_users** (dimension table): **450K+** unique registered users analyzed. Filtered strictly for registered accounts (excluding ghost users) and deduplicated by user ID. Highly optimized for regional and temporal queries via clustering on `country` and `user_created_at`.
-* **silver_transactions** (fact table): **145K+** transaction records processed, monitoring payment amounts, transaction statuses, and decline reasons. Deduplicated by unique transaction ID and clustered by `ts_created_at` and `user_id` for rapid financial and time-series reporting.
-
-
-
+* **silver_events** (fact table): **1.62M+** event records processed, capturing detailed user interactions, device specifications, and marketing attribution.
+* **silver_users** (dimension table): **450K+** unique registered accounts analyzed across all active regions to track onboarding and retention.
+* **silver_transactions** (fact table): **145K+** transaction records processed, tracking payment volume, approval rates, and decline triggers.
 
 ## Part 1: Growth and Acquisition 
 <small>*[Access the Gold Layer SQL Pipeline used to generate these funnel insights](Analytics_Engineering/Part1_Gold_Layer_Funnel.sql)*</small>
 
 ### 1. The Divide: Elite Retention vs. Onboarding Failure 
-NitroBank is a "unicorn" product hidden behind a broken door. We have exceptional product-market fit, but a single operational bottleneck is trapping massive, zero-CAC revenue. Optimizing our onboarding to an industry-standard 60% completion rate will trigger explosive bottom-up growth with **$0 in additional marketing spend.**
+NitroBank has an exceptional product-market fit, but a single operational bottleneck is trapping massive, zero-CAC revenue. Optimizing our onboarding to an industry-standard 60% completion rate will trigger explosive bottom-up growth with **$0 in additional marketing spend.**
 
 * **The KYC Wall:** We are losing **67%** of our acquired leads (~301,500) precisely at Document Submission.
 * **Elite Retention:** The intent is there. Once users clear that KYC wall, a staggering **90.3%** fund their accounts almost immediately.
@@ -70,6 +67,34 @@ NitroBank is a "unicorn" product hidden behind a broken door. We have exceptiona
 
 While fixing the KYC bottleneck resolves the volume equation, user acquisition means nothing without profitability. Part 2 shifts from funnel volume to financial health, analysing Total Payment Volume (TPV), Take Rates, and Average Revenue Per Active Customer (ARPAC) to validate NitroBank's true economic engines in LATAM.
 
-<br>
+## PART 2: UNIT ECONOMICS & PROFITABILITY
 
+Volume does not inherently equal profit. While Part 1 identified how to recover 301,000+ users, an analysis of **$56.3M in Total Payment Volume (TPV)** reveals that the "conversion gem" (Colombia) is actually our weakest revenue generator. To maximize NitroBank's financial health, we must pivot toward Mexico, our true economic engine, which boasts a **1.15% Take Rate** and an **ARPAC of $5.18**—more than double any other market.
 
+### 1. The Profitability Paradox
+* **The Mexican Efficiency:** Mexico processes less than half the volume of Brazil ($16.1M vs. $35.2M TPV) but generates significantly higher margins. Its 1.15% Take Rate makes it the most efficient market in the portfolio.
+* **The Whale Channel (Referrals):** Referral users are harder to acquire but hold the highest ARPAC ($3.76) and the fastest Time to Value (45.7 hours). They are our most lucrative and loyal user base.
+* **The Colombia Trap:** Despite high user intent, Colombia is a low-margin environment with only a 0.50% Take Rate. Scaling here without better interchange fees will compress overall profit margins.
+* **The Mexican Trust Gap:** Despite being our most profitable demographic, Mexican users exhibit a critical 60.8-hour activation lag—nearly double Brazil’s 38 hours. Since Mexico’s SPEI network provides 24/7 instantaneous settlement, this 2.5-day delay is a UX and psychological failure rather than a technical one. This "Trust Gap" confirms that while Mexican users have high intent, they are hesitating to deposit their first dollar until they have vetted the platform’s reliability.
+
+### 2. Strategic Analysis: Rethinking LTV vs. CAC
+* **The Geo-Arbitrage Opportunity:** Mexico’s $5.18 ARPAC (2.5x Colombia’s) justifies a significantly higher Customer Acquisition Cost (CAC) while maintaining highly profitable unit economics.
+* **Channel-Specific Unit Economics:** Though globally inefficient, Facebook Ads are a localized goldmine in Mexico, yielding an elite $5.31 ARPAC (second only to Referrals). We must ring-fence our Facebook budget exclusively for Mexican acquisition. However, before deployment, we must calculate the exact CAC for this specific segment to verify the $5.31 ARPAC supports a sustainable, profitable LTV:CAC margin at scale.
+
+  <img src="./Visuals/efficiency_heatmap.png" alt="heatmap" width="700">
+
+### 3. Recommended Action Plan
+
+**Phase 1: The Mexican Activation Sprint**
+To capture Mexico's high-ARPAC revenue faster, we must pivot from technical fixes to trust-building interventions. The objective is to collapse the 60.8-hour activation lag and convert user hesitation into funded accounts.
+* **Trust Intervention:** Deploy Mexico-specific onboarding cues to directly address the 2.5-day trust gap.
+* **Incentivize Speed:** Launch a "Day 1 Funding Match" (e.g., deposit $10, get $2) to pull forward initial deposits and establish immediate Time-to-Value (TTV).
+
+**Phase 2: The Referral Overhaul**
+* **Subsidize "The Whales":** Increase the referral bonus payout by 50%. The elite unit economics of this channel will easily absorb the higher CAC, driving faster acquisition of high-spending, high-intent users.
+
+**Phase 3: Strategic Pivot in Colombia**
+* **Pause Paid Hyper-Growth:** Shift Colombia entirely to a product-led organic strategy. Aggressive ad spend will not yield venture-scale returns until we negotiate better local interchange fees to lift the baseline 0.50% Take Rate.
+
+### 4. Looking Ahead: The Risk Factor
+While Mexico’s **1.15% Take Rate** is our primary economic driver, unusually high margins in emerging markets often signal underlying financial risk. Part 3 will analyze transaction declines and behavioral proxies to determine if these margins are sustainable, or if we are inadvertently taking on toxic volume.
