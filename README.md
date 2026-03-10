@@ -24,7 +24,7 @@ This project follows a **Medallion Architecture**. The Entity Relationship Diagr
 * **silver_transactions** (fact table): **145K+** transaction records processed, tracking payment volume, approval rates, and decline triggers.
 
 ## Part 1: Growth and Acquisition 
-<small>*[Access the Gold Layer SQL Pipeline used to generate these funnel insights](Analytics_Engineering/Part1_Gold_Layer_Funnel.sql)*</small>
+<sub>*[Access the Gold Layer SQL Pipeline used to generate these funnel insights](Analytics_Engineering/Part1_Gold_Layer_Funnel.sql)*</sub>
 
 ### 1. The Divide: Elite Retention vs. Onboarding Failure 
 NitroBank has an exceptional product-market fit, but a single operational bottleneck is trapping massive, zero-CAC revenue. Optimizing our onboarding to an industry-standard 60% completion rate will trigger explosive bottom-up growth with **$0 in additional marketing spend.**
