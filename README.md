@@ -1,7 +1,7 @@
 # NitroBank-LATAM-Fintech-Growth-Audit
 
 
-## EXECUTIVE SUMMARY
+## Executive Summary
 
 This three-part strategic analysis evaluates the expansion and operational efficiency of NitroBank across Latin America. By tracking **over 1 million potential users across Brazil, Mexico, and Colombia** between January 2024 and January 2026, this report identifies the technical bottlenecks, financial drivers, and product innovations required to dominate the LATAM fintech landscape.
 
@@ -9,10 +9,12 @@ This three-part strategic analysis evaluates the expansion and operational effic
 * **Part 2: Unit Economics and profitability:** An analysis of the "Profitability Paradox," shifting strategy away from low-margin volume toward Mexico’s elite **1.15% Take Rate** and high-LTV referral channels.
 * **Part 3: Transaction Success And Friction Removal:** A deep dive into **>145,000 transactions** to validate market stability and transform "Insufficient Funds" declines into a high-margin micro-credit product line.
 
-## PART 1: GROWTH AND ACQUISITION  
+## Data Architecture & Scope 
+
+## Part 1: Growth and Acquisition 
 <small>*[Access the Gold Layer SQL Pipeline used to generate these funnel insights](Analytics_Engineering/Part1_Gold_Layer_Funnel.sql)*</small>
 
-### 1. THE DIVIDE: ELITE RETENTION VS. ONBOARDING FAILURE
+### 1. The Divide: Elite Retention vs. Onboarding Failure 
 NitroBank is a "unicorn" product hidden behind a broken door. We have exceptional product-market fit, but a single operational bottleneck is trapping massive, zero-CAC revenue. Optimizing our onboarding to an industry-standard 60% completion rate will trigger explosive bottom-up growth with **$0 in additional marketing spend.**
 
 * **The KYC Wall:** We are losing **67%** of our acquired leads (~301,500) precisely at Document Submission.
@@ -23,12 +25,12 @@ NitroBank is a "unicorn" product hidden behind a broken door. We have exceptiona
 <img src="./Visuals/users_funnel.png" alt="funnel" width="700">
 
 
-### 2. STRATEGIC DIAGNOSIS: THE DROP-OFF
+### 2. Strategic Diagnosis: The DROP-OFF 
 * **Ruling Out Culture & Psychology:** The KYC drop-off is practically identical across Brazil (33.1%), Mexico (33.2%), and Colombia (33.0%). High-intent organic users fail at the same rate. This is definitively not a localized trust or motivation issue.
 * **The Primary Suspect (Technical Failure):** With an overwhelmingly Android user base (e.g., 523k Android vs. 105k iOS in Brazil), this universal failure points to a severe technical crash—likely an Android Camera SDK or UI loop during document upload.
 * **The Telemetry Blind Spot:** A cohort of ~32,000 "Unknown OS" users boasts a 100% Signup Rate and a staggering **26.8% Monetization Rate** (vs. Android's 11.6%). This signals bypassed telemetry (likely Web-to-App handoffs or API partners) and represents a highly profitable untapped channel.
 
-### 3. ACTION PLAN & NEXT STEPS
+### 3. Action plan 
 
 **Phase 1: The Technical "Fix It" Sprint (Days 1–7)**
 * **Crash Telemetry Audit:** Isolate KYC module timeouts and crashes by **Device Model, OS, and Network Type** to solve for LATAM's volatile mobile data environments.
@@ -49,7 +51,7 @@ NitroBank is a "unicorn" product hidden behind a broken door. We have exceptiona
 
 * **Gated A/B Testing:** Deploy a recovery campaign to the **301,500 "Stuck" users**. It is critical to maintain a strict hold on this spend until Phase 1 validates that the technical UI crashes are resolved.
 
-### 4. LOOKING AHEAD: BRIDGING TO PART 2
+### 4. Looking Ahead: Bridging To Part 2 
 
 While fixing the KYC bottleneck resolves the volume equation, user acquisition means nothing without profitability. Part 2 shifts from funnel volume to financial health, analysing Total Payment Volume (TPV), Take Rates, and Average Revenue Per Active Customer (ARPAC) to validate NitroBank's true economic engines in LATAM.
 
