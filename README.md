@@ -69,7 +69,7 @@ While fixing the KYC bottleneck resolves the volume equation, user acquisition m
 
 ## PART 2: UNIT ECONOMICS & PROFITABILITY 
 
-<sub>*[Access Gold Layer Financials SQL queries](Analytics_Engineering/Part_2. gold_fact_financials_monthly.sql)*</sub>
+<sub>*[Access Monthly Financials Gold Layer SQL queries](Analytics_Engineering/Part_2.gold_fact_financials_monthly.sql)*</sub>
 
 Volume does not inherently equal profit. While Part 1 identified how to recover 301,000+ users, an analysis of **$56.3M in Total Payment Volume (TPV)** reveals that the "conversion gem" (Colombia) is actually our weakest revenue generator. To maximize NitroBank's financial health, we must pivot toward Mexico, our true economic engine, which boasts a **1.15% Take Rate** and an **ARPAC of $5.18**—more than double any other market.
 
