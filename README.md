@@ -22,7 +22,7 @@
   * [1. Silver Layer: Lineage](#1-the-silver-layer-performance--lineage)
   * [2. Strategic Modelling](#2-strategic-modelling-eliminating-survivorship-bias)
   * [3. Gold Layer: Integrity](#3-the-gold-layer-financial-integrity--evolution)
-  * [4. Quality Assurance](#4-automated-data-observability--quality-assurance)
+  * [4. Quality Assurance](#4.-Data-Quality-Assurance:-The-Engineering-Dashboard)
 
 ## Executive Summary 
 
@@ -304,60 +304,31 @@ Target the 13,649 users triggering insufficient funds declines with localized, l
 
   
 
-## 🔧 Analytics Engineering & Architecture 
+## 🔧 Analytics Engineering & Architecture
+<sub>*[Access the Full Analytics Engineering SQL Pipeline Here](Analytics_Engineering/Data_Quality_Dashboard.sql)*</sub>
 
-  
+**Stack:** Databricks SQL (Delta Lake) | ELT | Liquid Clustering | Star Schema | Medallion Architecture | Looker Studio | dbt
 
-**Stack:** Databricks SQL (Delta Lake) | ELT | Liquid Clustering | Star Schema | Medallion Architecture | Looker Studio | dbt 
+> **Architectural Note:** While the physical dataset for this portfolio project is under 300 MB, the pipeline infrastructure, indexing, and modelling are deliberately engineered to simulate and optimize for **petabyte-scale** fintech data streams.
 
-  
 
-> **Architectural Note:** While the physical dataset for this portfolio project is under 300 MB, the pipeline infrastructure, indexing, and modelling are deliberately engineered to simulate and optimize for **petabyte-scale** fintech data streams. 
 
-  
+### 1. The Silver Layer: Performance & Lineage
+* **Deterministic Lineage:** Generated MD5 surrogate keys (user + event + timestamp) to guarantee 100% traceability for raw, ID-less telemetry.
+* **Compute Optimization:** Implemented Liquid Clustering to optimize partition pruning and proactively solve the "Small File Problem." *For >10M row datasets, this layer transitions to dbt incremental models to slash warehouse compute costs.*
+* **Precision Deduplication:** Deployed single-pass `QUALIFY ROW_NUMBER()` logic to strip operational noise. Fortified the layer with structural checks to ensure zero duplicate primary keys and strict null-safety on financial columns.
 
-### 1. The Silver Layer: Performance & Lineage 
+### 2. Strategic Modelling: Eliminating Survivorship Bias
+* **The "Ghost User" Solution:** Engineered a Denormalized Star Schema to capture the 67% of traffic that drops off pre-registration, persisting Country and Marketing Source directly on the `silver_events` fact table.
+* **Zero-Join BI Analysis:** Empowered **Looker Studio executive dashboards** to analyze unregistered traffic directly from the fact table. This slashes BI query latency and bypasses the compute costs of expensive distributed joins.
 
-  
+### 3. The Gold Layer: Financial Integrity & Evolution
+* **State Machine Enforcement:** Embedded logic to strictly enforce the irreversible sequential flow: KYC → Activation → Spend. Timeline checks guarantee chronological consistency (no spending before account creation).
+* **Audit-Grade Financial Hardening:** To transition this simulation to a live banking environment, hardcoded `CASE` statements for currency conversion would be replaced by a dynamic `LEFT JOIN` on a `dim_exchange_rates` table. Joining on `currency_code` and `DATE(transaction_timestamp)` parses historical purchases against daily market rates, providing the point-in-time auditability required for regulatory compliance.
+* **Reconciliation Audit:** Achieved a <0.02% variance during cross-layer validation between the Behavioural Funnel (124,498 users) and Transactional Ledger (124,471 users), ensuring dashboard metrics map 100% to known entities.
 
-* **Deterministic Lineage:** Generated MD5 surrogate keys (user + event + timestamp) to guarantee 100% traceability for raw, ID-less telemetry. 
-
-* **Compute Optimization:** Implemented Liquid Clustering to optimize partition pruning and proactively solve the "Small File Problem" at scale. *For production datasets exceeding 10M rows, this layer is designed to transition to dbt incremental models to heavily reduce warehouse compute costs.* 
-
-* **Precision Deduplication & Structural Safety:** Deployed single-pass `QUALIFY ROW_NUMBER()` logic to strip operational noise. Fortified the layer with structural checks ensuring zero duplicate primary keys across users and transactions, alongside strict null-safety checks on critical financial columns. 
-
-  
-
-### 2. Strategic Modelling: Eliminating Survivorship Bias 
-
-  
-
-* **The "Ghost User" Solution:** Engineered a Denormalized Star Schema to capture the 67% of traffic that drops off pre-registration, persisting Country and Marketing Source directly on the `silver_events` fact table. 
-
-* **Zero-Join Analysis:** Empowered executive dashboards to analyse unregistered traffic straight from the fact table, slashing query latency. Data storage is a fraction of the cost of expensive distributed joins. 
-
-  
-
-### 3. The Gold Layer: Financial Integrity & Evolution 
-
-  
-
-* **State Machine Enforcement:** Embedded logic to strictly enforce the irreversible sequential flow: KYC → Activation → Spend. Timeline checks guarantee chronological consistency (e.g., verifying users didn't spend money before account creation). 
-
-* **Audit-Grade Financial Hardening:** To transition from this portfolio simulation to a live banking environment, the hardcoded `CASE` statements for currency conversion would be replaced by a dynamic `LEFT JOIN` on a `dim_exchange_rates` dimension table. By joining on both `currency_code` and `DATE(transaction_timestamp)`, the pipeline would parse historical purchases against exact daily market rates, providing the sub-cent precision and point-in-time auditability required for international regulatory compliance.
-
-* **Reconciliation Audit & Referential Integrity:** Achieved a <0.02% variance during cross-layer validation between the Behavioural Funnel (124,498 users) and the Transactional Ledger (124,471 users), while validating that 100% of transactions map to known users (zero orphan transactions). 
-
-  
-
-### 4. Automated Data Observability & Quality Assurance 
-
-  
-
-To validate the pipeline's accuracy, I engineered a continuous SQL validation dashboard that runs assertion checks across three critical risk vectors: 
-
-* **Layer 1 - Structural Checks:** Validates primary key uniqueness across users/transactions and hunts for technical duplicates in event logs. 
-
-* **Layer 2 - Integrity Checks:** Guarantees chronological validity (no time-traveling events) and verifies funnel completeness to ensure business logic holds at scale. 
-
-* **Layer 3 - Risk & Anomaly Detection:** Implemented a Bot Velocity Check to identify anomalous, high-velocity KYC submissions (completion in <30s), flagging potential fraudulent actors before they contaminate downstream analytics. 
+### 4. Data Quality Assurance: The Engineering Dashboard
+ To ensure pipeline accuracy, I developed a suite of diagnostic SQL queries. These guardrails audit the data across three critical risk vectors:
+* **Layer 1 - Structural:** Validates primary key uniqueness and hunts for technical duplicates in event logs.
+* **Layer 2 - Integrity:** Guarantees chronological validity (no time-traveling events) and verifies funnel completeness to ensure business logic holds at scale.
+* **Layer 3 - Risk & Anomaly:** Implemented a Bot Velocity Check to identify anomalous, high-velocity KYC submissions (completion in <30s), flagging potential fraudulent actors before they contaminate downstream analytics.
