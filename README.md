@@ -22,8 +22,8 @@
   * [1. Silver Layer: Lineage](#1-the-silver-layer-performance--lineage)
   * [2. Strategic Modelling](#2-strategic-modelling-eliminating-survivorship-bias)
   * [3. Gold Layer: Integrity](#3-the-gold-layer-financial-integrity--evolution)
-  * [4. Quality Assurance](#4.-Data-Quality-Assurance:-The-Engineering-Dashboard)
-
+  * [4. Data Quality Assurance](#4-data-quality-assurance-the-engineering-dashboard)
+    
 ## Executive Summary 
 
   
