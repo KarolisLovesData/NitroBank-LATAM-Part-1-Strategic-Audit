@@ -14,7 +14,7 @@ WITH cohort_base AS (
         FIRST(marketing_source) AS marketing_source 
     FROM silver_events
     WHERE event_name = 'app_open'  --this is the top of the funnel, all conversions will be percentage of # of 'app_open' events
-    GROUP BY 1                      
+    GROUP BY 1                        
 ),
 
 user_signups AS (
@@ -35,29 +35,47 @@ user_signups AS (
 funnel_events AS (
     -- 3. INTERMEDIATE STEPS: Flag KYC Submission and Account Activation events.
     SELECT 
-        s.*,
-        MAX(CASE WHEN e.event_name = 'kyc_submitted' THEN 1 ELSE 0 END) AS has_submitted_kyc,           /*used MAX to essentially flatten the masisive
-        MAX(CASE WHEN e.event_name = 'account_activated' THEN 1 ELSE 0 END) AS has_activated,          log of events a user might have, MIN to capture
-        MIN(CASE WHEN e.event_name = 'account_activated' THEN e.event_timestamp END) AS activation_ts   the very first activation event*/
+        s.user_id,
+        s.first_open_ts,
+        s.os_name,
+        s.country,
+        s.marketing_source,
+        s.account_created_ts,
+        s.has_created_account,
+        
+        -- used MAX to essentially flatten the massive log of events a user might have
+        -- MIN is used to capture the very first activation event
+        MAX(CASE WHEN e.event_name = 'kyc_submitted' THEN 1 ELSE 0 END) AS has_submitted_kyc,          
+        MAX(CASE WHEN e.event_name = 'account_activated' THEN 1 ELSE 0 END) AS has_activated,          
+        MIN(CASE WHEN e.event_name = 'account_activated' THEN e.event_timestamp END) AS activation_ts   
     FROM user_signups s
     LEFT JOIN silver_events e 
         ON s.user_id = e.user_id 
         AND e.event_timestamp >= s.first_open_ts  --chronological guardrail, KYC,Activation happens after the app open 
-    GROUP BY ALL
+    GROUP BY 1, 2, 3, 4, 5, 6, 7
 ),
 
 final_metrics AS (
     -- 4. MONETIZATION: Link users to their first APPROVED transaction.
     -- Ensures we only count monetized users originating from our specific traffic cohort.
     SELECT 
-        f.*,
+        f.user_id,
+        f.first_open_ts,
+        f.os_name,
+        f.country,
+        f.marketing_source,
+        f.account_created_ts,
+        f.has_created_account,
+        f.has_submitted_kyc,
+        f.has_activated,
+        f.activation_ts,
         MIN(t.ts_created_at) AS first_trans_ts   --captured the very first transactions
     FROM funnel_events f
     LEFT JOIN silver_transactions t 
         ON TRIM(f.user_id) = TRIM(t.user_id)    --cleaned up the user_id column to capture all user ids
         AND UPPER(t.status) = 'APPROVED'  
         AND t.ts_created_at >= f.first_open_ts
-    GROUP BY ALL
+    GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 )
 
 -- 5. DAILY AGGREGATION & VELOCITY CALCULATION
@@ -80,4 +98,4 @@ SELECT
     ROUND(AVG(GREATEST(0, unix_timestamp(first_trans_ts) - unix_timestamp(activation_ts)) / 3600), 2) AS avg_hours_active_to_value
 
 FROM final_metrics
-GROUP BY 1, 2, 3, 4;   
+GROUP BY 1, 2, 3, 4;
