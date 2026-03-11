@@ -344,9 +344,7 @@ Target the 13,649 users triggering insufficient funds declines with localized, l
 
 * **State Machine Enforcement:** Embedded logic to strictly enforce the irreversible sequential flow: KYC → Activation → Spend. Timeline checks guarantee chronological consistency (e.g., verifying users didn't spend money before account creation). 
 
-* **Global Normalization & Dynamic FX:** Unified multi-market performance by standardizing regional transaction volumes to USD. *To scale beyond the current hardcoded baseline, the pipeline is structured to LEFT JOIN a `dim_exchange_rates` table, ensuring historical transactions convert at the day-of-transaction rate for strict financial auditability.* 
-
-* **Revenue Granularity:** Moving past estimated Take Rates, the architecture supports extracting the `effective_fee` directly from the payment gateway's JSON payloads in the Silver layer to accurately account for varying card network costs (e.g., Visa vs. Mastercard). 
+* **Audit-Grade Financial Hardening:** To transition from this portfolio simulation to a live banking environment, the hardcoded `CASE` statements for currency conversion would be replaced by a dynamic `LEFT JOIN` on a `dim_exchange_rates` dimension table. By joining on both `currency_code` and `DATE(transaction_timestamp)`, the pipeline would parse historical purchases against exact daily market rates, providing the sub-cent precision and point-in-time auditability required for international regulatory compliance.
 
 * **Reconciliation Audit & Referential Integrity:** Achieved a <0.02% variance during cross-layer validation between the Behavioural Funnel (124,498 users) and the Transactional Ledger (124,471 users), while validating that 100% of transactions map to known users (zero orphan transactions). 
 
