@@ -81,8 +81,8 @@ enriched_financials AS (
         END AS revenue_usd
 
     FROM monthly_activity m
-    INNER JOIN user_journey_milestones u ON m.user_id = u.user_id
-    LEFT JOIN user_first_transaction ft ON m.user_id = ft.user_id
+    INNER JOIN user_journey_milestones u ON m.user_id = u.user_id  --only transactions with verified users in Gold Table 
+    LEFT JOIN user_first_transaction ft ON m.user_id = ft.user_id  --attaches the very first user transaction 
 )
 
 -- 5. Final Gold Table Output
