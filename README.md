@@ -67,7 +67,9 @@ NitroBank has an exceptional product-market fit, but a single operational bottle
 
 While fixing the KYC bottleneck resolves the volume equation, user acquisition means nothing without profitability. Part 2 shifts from funnel volume to financial health, analysing Total Payment Volume (TPV), Take Rates, and Average Revenue Per Active Customer (ARPAC) to validate NitroBank's true economic engines in LATAM.
 
-## PART 2: UNIT ECONOMICS & PROFITABILITY
+## PART 2: UNIT ECONOMICS & PROFITABILITY 
+
+<sub>*[Access Gold Layer Financials SQL queries](Analytics_Engineering/Part_2. gold_fact_financials_monthly.sql)*</sub>
 
 Volume does not inherently equal profit. While Part 1 identified how to recover 301,000+ users, an analysis of **$56.3M in Total Payment Volume (TPV)** reveals that the "conversion gem" (Colombia) is actually our weakest revenue generator. To maximize NitroBank's financial health, we must pivot toward Mexico, our true economic engine, which boasts a **1.15% Take Rate** and an **ARPAC of $5.18**—more than double any other market.
 
