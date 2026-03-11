@@ -19,11 +19,11 @@
   * [2. From Declines to Revenue](#2-strategic-analysis-from-declines-to-revenue)
   * [3. Action Plan: Friction Removal](#3-recommended-action-plan-1)
 * [🔧 Analytics Engineering & Architecture](#-analytics-engineering--architecture)
-  * [1. Silver Layer: Lineage](#1-the-silver-layer-performance--lineage)
-  * [2. Strategic Modelling](#2-strategic-modelling-eliminating-survivorship-bias)
-  * [3. Gold Layer: Integrity](#3-the-gold-layer-financial-integrity--evolution)
-  * [4. Data Quality Assurance](#4-data-quality-assurance-the-engineering-dashboard)
-    
+  * [1. Data Quality Assurance: The Engineering Dashboard](#1-data-quality-assurance-the-engineering-dashboard)
+  * [2. The Silver Layer: Performance & Lineage](#2-the-silver-layer-performance--lineage)
+  * [3. Strategic Modelling: Eliminating Survivorship Bias](#3-strategic-modelling-eliminating-survivorship-bias)
+  * [4. The Gold Layer: Financial Integrity & Evolution](#4-the-gold-layer-financial-integrity--evolution)
+
 ## Executive Summary 
 
   
@@ -305,31 +305,34 @@ Target the 13,649 users triggering insufficient funds declines with localized, l
   
 
 ## 🔧 Analytics Engineering & Architecture
-<sub>*[Access the Data Quality Guardrails SQL queries](Analytics_Engineering/Data_Quality_Dashboard.sql)*</sub>
+<sub>*[Access the Data Quality Guardrails SQL queries](Analytics_Engineering/Data_Quality_Dashboard.sql)*</sub><br>
 <sub>*[Access the BRONZE-->SILVER Transition Queries](Analytics_Engineering/Bronze_to_Silver_Transition.sql)*</sub>
 
 **Stack:** Databricks SQL (Delta Lake) | ELT | Liquid Clustering | Star Schema | Medallion Architecture | Looker Studio | dbt
 
 > **Architectural Note:** While the physical dataset for this portfolio project is under 300 MB, the pipeline infrastructure, indexing, and modelling are deliberately engineered to simulate and optimize for **petabyte-scale** fintech data streams.
 
+### 1. Data Quality Assurance: The Engineering Dashboard
 
+<img src="./Visuals/Data_Quality_Results.png" alt="dashboard" width="700"> 
 
-### 1. The Silver Layer: Performance & Lineage
+*^ **Data Observability in Action:** As expected with raw telemetry, the inbound Bronze data triggers multiple integrity failures—including a webhook retry storm creating duplicate users, and client-side clock skew causing "time-traveling" transactions. The Medallion pipeline below was built specifically to intercept and neutralize these anomalies.*
+
+To protect pipeline accuracy from the reality of messy, high-volume mobile telemetry, I developed a suite of diagnostic SQL queries. These guardrails audit the data across three critical risk vectors:
+* **Layer 1 - Structural:** Validates primary key uniqueness and hunts for technical duplicates in event logs.
+* **Layer 2 - Integrity:** Guarantees chronological validity (no "time-traveling" events) and verifies funnel completeness to ensure business logic holds at scale.
+* **Layer 3 - Risk & Anomaly:** Implemented a Bot Velocity Check to identify anomalous, high-velocity KYC submissions (completion in <30s), flagging potential fraudulent actors before they contaminate downstream analytics.
+
+### 2. The Silver Layer: Performance & Lineage
+* **Precision Deduplication & Quarantine:** To neutralize the anomalies flagged by the QA dashboard, I deployed single-pass `QUALIFY ROW_NUMBER()` logic. This successfully stripped all technical duplicates and strictly filtered out "time-traveling" users, keeping the verified Silver counts perfectly pristine.
 * **Deterministic Lineage:** Generated MD5 surrogate keys (user + event + timestamp) to guarantee 100% traceability for raw, ID-less telemetry.
 * **Compute Optimization:** Implemented Liquid Clustering to optimize partition pruning and proactively solve the "Small File Problem." *For >10M row datasets, this layer transitions to dbt incremental models to slash warehouse compute costs.*
-* **Precision Deduplication:** Deployed single-pass `QUALIFY ROW_NUMBER()` logic to strip operational noise. Fortified the layer with structural checks to ensure zero duplicate primary keys and strict null-safety on financial columns.
 
-### 2. Strategic Modelling: Eliminating Survivorship Bias
+### 3. Strategic Modelling: Eliminating Survivorship Bias
 * **The "Ghost User" Solution:** Engineered a Denormalized Star Schema to capture the 67% of traffic that drops off pre-registration, persisting Country and Marketing Source directly on the `silver_events` fact table.
 * **Zero-Join BI Analysis:** Empowered **Looker Studio executive dashboards** to analyze unregistered traffic directly from the fact table. This slashes BI query latency and bypasses the compute costs of expensive distributed joins.
 
-### 3. The Gold Layer: Financial Integrity & Evolution
+### 4. The Gold Layer: Financial Integrity & Evolution
 * **State Machine Enforcement:** Embedded logic to strictly enforce the irreversible sequential flow: KYC → Activation → Spend. Timeline checks guarantee chronological consistency (no spending before account creation).
 * **Audit-Grade Financial Hardening:** To transition this simulation to a live banking environment, hardcoded `CASE` statements for currency conversion would be replaced by a dynamic `LEFT JOIN` on a `dim_exchange_rates` table. Joining on `currency_code` and `DATE(transaction_timestamp)` parses historical purchases against daily market rates, providing the point-in-time auditability required for regulatory compliance.
 * **Reconciliation Audit:** Achieved a <0.02% variance during cross-layer validation between the Behavioural Funnel (124,498 users) and Transactional Ledger (124,471 users), ensuring dashboard metrics map 100% to known entities.
-
-### 4. Data Quality Assurance: The Engineering Dashboard
- To ensure pipeline accuracy, I developed a suite of diagnostic SQL queries. These guardrails audit the data across three critical risk vectors:
-* **Layer 1 - Structural:** Validates primary key uniqueness and hunts for technical duplicates in event logs.
-* **Layer 2 - Integrity:** Guarantees chronological validity (no time-traveling events) and verifies funnel completeness to ensure business logic holds at scale.
-* **Layer 3 - Risk & Anomaly:** Implemented a Bot Velocity Check to identify anomalous, high-velocity KYC submissions (completion in <30s), flagging potential fraudulent actors before they contaminate downstream analytics.
