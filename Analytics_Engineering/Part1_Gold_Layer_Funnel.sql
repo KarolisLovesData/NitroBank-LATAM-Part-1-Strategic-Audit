@@ -1,4 +1,32 @@
+--Customer funnel analysis the final quuery for the business for the analysis
+
+SELECT country,
+       marketing_source,
+    SUM(total_app_opens) AS cohort_size,
+    
+    -- Step 1: App Open --> Account Created 
+    ROUND(SUM(users_created_account) / NULLIF(SUM(total_app_opens), 0) * 100, 2) || '%' AS step1_signup_rate,  
+    
+    -- Step 2: Account Created --> KYC Submitted
+    ROUND(SUM(users_submitted_kyc) / NULLIF(SUM(users_created_account), 0) * 100, 2) || '%' AS step2_doc_submission_rate,
+    
+    -- Step 3: KYC Submitted --> Account Activated
+    ROUND(SUM(users_activated) / NULLIF(SUM(users_submitted_kyc), 0) * 100, 2) || '%' AS step3_approval_rate,
+    
+    -- Step 4: Account Activated --> First Transaction
+    ROUND(SUM(users_transacted) / NULLIF(SUM(users_activated), 0) * 100, 2) || '%' AS step4_funding_rate,
+
+    -- Global conversion from App Open to Revenue (only user_id with APPROVED transaction)
+    ROUND(SUM(users_transacted) / NULLIF(SUM(total_app_opens), 0) * 100, 2) || '%' AS global_monetization_rate
+
+FROM gold_fact_funnel_daily
+GROUP BY country, marketing_source
+ORDER BY cohort_size DESC;      
+
+
+
 -- GOLD LAYER: Daily Funnel Performance
+--This is the query that was used to create BI ready Gold Layer table
 -- Strategy: Cohort-based funnel tracking to monitor conversion and velocity
 
 CREATE OR REPLACE TABLE gold_fact_funnel_daily AS 
