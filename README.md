@@ -305,7 +305,8 @@ Target the 13,649 users triggering insufficient funds declines with localized, l
   
 
 ## 🔧 Analytics Engineering & Architecture
-<sub>*[Access the Full Analytics Engineering SQL Pipeline Here](Analytics_Engineering/Data_Quality_Dashboard.sql)*</sub>
+<sub>*[Access the Data Quality Guardrails SQL queries](Analytics_Engineering/Data_Quality_Dashboard.sql)*</sub>
+<sub>*[Access the BRONZE-->SILVER Transition Queries](Analytics_Engineering/Bronze_to_Silver_Transition.sql)*</sub>
 
 **Stack:** Databricks SQL (Delta Lake) | ELT | Liquid Clustering | Star Schema | Medallion Architecture | Looker Studio | dbt
 
