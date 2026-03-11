@@ -15,8 +15,8 @@ WITH user_journey_milestones AS (
         u.user_id,
         u.country,
         u.marketing_source,
-        MIN(CASE WHEN e.event_name = 'app_open' THEN e.event_timestamp END) AS first_app_open_ts,
-        MIN(CASE WHEN e.event_name = 'account_activated' THEN e.event_timestamp END) AS activation_ts
+        MIN(CASE WHEN e.event_name = 'app_open' THEN e.event_timestamp END) AS first_app_open_ts,     /*exact user entry point in the
+        MIN(CASE WHEN e.event_name = 'account_activated' THEN e.event_timestamp END) AS activation_ts  funnel is established*/
     FROM silver_users u
     LEFT JOIN silver_events e ON u.user_id = e.user_id
     GROUP BY 1, 2, 3
@@ -27,7 +27,7 @@ user_first_transaction AS (
     -- This is essential for calculating the true Time-To-Value (TTV)
     SELECT 
         user_id,
-        MIN(ts_created_at) AS global_first_spend_ts
+        MIN(ts_created_at) AS global_first_spend_ts 
     FROM silver_transactions 
     WHERE status = 'APPROVED'
     GROUP BY 1
