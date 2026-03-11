@@ -135,3 +135,30 @@ Target the 13,649 users triggering insufficient funds declines with localized, l
 ### Business Impact & Final Conclusion
 * **Immediate Uplift:** Converting just 20% of "Insufficient Funds" declines (~2,700 transactions) via micro-credit instantly boosts active TPV and introduces a lucrative, high-margin interest stream.
 * **The Blueprint:** NitroBank now has a complete, data-backed roadmap: Fix the onboarding "Wall" (Part 1), double down on high-value Mexican acquisition (Part 2), and unlock credit-led growth via transaction recovery (Part 3).
+
+## 🔧 Analytics Engineering & Architecture
+
+**Stack:** Databricks SQL (Delta Lake) | ELT | Liquid Clustering | Star Schema | Medallion Architecture | Looker Studio | dbt
+
+> **Architectural Note:** While the physical dataset for this portfolio project is under 300 MB, the pipeline infrastructure, indexing, and modelling are deliberately engineered to simulate and optimize for **petabyte-scale** fintech data streams.
+
+### 1. The Silver Layer: Performance & Lineage
+* **Deterministic Lineage:** Generated MD5 surrogate keys (user + event + timestamp) to guarantee 100% traceability for raw, ID-less telemetry.
+* **Compute Optimization:** Implemented Liquid Clustering to optimize partition pruning and proactively solve the "Small File Problem" at scale. *For production datasets exceeding 10M rows, this layer is designed to transition to dbt incremental models to heavily reduce warehouse compute costs.*
+* **Precision Deduplication & Structural Safety:** Deployed single-pass `QUALIFY ROW_NUMBER()` logic to strip operational noise. Fortified the layer with structural checks ensuring zero duplicate primary keys across users and transactions, alongside strict null-safety checks on critical financial columns.
+
+### 2. Strategic Modelling: Eliminating Survivorship Bias
+* **The "Ghost User" Solution:** Engineered a Denormalized Star Schema to capture the 67% of traffic that drops off pre-registration, persisting Country and Marketing Source directly on the `silver_events` fact table.
+* **Zero-Join Analysis:** Empowered executive dashboards to analyse unregistered traffic straight from the fact table, slashing query latency. Data storage is a fraction of the cost of expensive distributed joins.
+
+### 3. The Gold Layer: Financial Integrity & Evolution
+* **State Machine Enforcement:** Embedded logic to strictly enforce the irreversible sequential flow: KYC → Activation → Spend. Timeline checks guarantee chronological consistency (e.g., verifying users didn't spend money before account creation).
+* **Global Normalization & Dynamic FX:** Unified multi-market performance by standardizing regional transaction volumes to USD. *To scale beyond the current hardcoded baseline, the pipeline is structured to LEFT JOIN a `dim_exchange_rates` table, ensuring historical transactions convert at the day-of-transaction rate for strict financial auditability.*
+* **Revenue Granularity:** Moving past estimated Take Rates, the architecture supports extracting the `effective_fee` directly from the payment gateway's JSON payloads in the Silver layer to accurately account for varying card network costs (e.g., Visa vs. Mastercard).
+* **Reconciliation Audit & Referential Integrity:** Achieved a <0.02% variance during cross-layer validation between the Behavioural Funnel (124,498 users) and the Transactional Ledger (124,471 users), while validating that 100% of transactions map to known users (zero orphan transactions).
+
+### 4. Automated Data Observability & Quality Assurance
+To validate the pipeline's accuracy, I engineered a continuous SQL validation dashboard that runs assertion checks across three critical risk vectors:
+* **Layer 1 - Structural Checks:** Validates primary key uniqueness across users/transactions and hunts for technical duplicates in event logs.
+* **Layer 2 - Integrity Checks:** Guarantees chronological validity (no time-traveling events) and verifies funnel completeness to ensure business logic holds at scale.
+* **Layer 3 - Risk & Anomaly Detection:** Implemented a Bot Velocity Check to identify anomalous, high-velocity KYC submissions (completion in <30s), flagging potential fraudulent actors before they contaminate downstream analytics.
