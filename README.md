@@ -305,7 +305,6 @@ Target the 13,649 users triggering insufficient funds declines with localized, l
   
 
 ## 🔧 Analytics Engineering & Architecture
-<sub>*[Access the Data Quality Guardrails SQL queries](Analytics_Engineering/Data_Quality_Dashboard.sql)*</sub><br>
 <sub>*[Access the BRONZE-->SILVER Transition Queries](Analytics_Engineering/Bronze_to_Silver_Transition.sql)*</sub>
 
 **Stack:** Databricks SQL (Delta Lake) | ELT | Liquid Clustering | Star Schema | Medallion Architecture | Looker Studio | dbt
@@ -316,9 +315,9 @@ Target the 13,649 users triggering insufficient funds declines with localized, l
 
 <img src="./Visuals/Data_Quality_Results.png" alt="dashboard" width="700"> 
 
-*^ **Data Observability in Action:** As expected with raw telemetry, the inbound Bronze data triggers multiple integrity failures—including a webhook retry storm creating duplicate users, and client-side clock skew causing "time-traveling" transactions. The Medallion pipeline below was built specifically to intercept and neutralize these anomalies.*
+^ **Data Observability in Action:** As expected with raw telemetry, the inbound Bronze data triggers multiple integrity failures—including a webhook retry storm creating duplicate users, and client-side clock skew causing "time-traveling" transactions. The Medallion pipeline below was built specifically to intercept and neutralize these anomalies.
 
-To protect pipeline accuracy from the reality of messy, high-volume mobile telemetry, I developed a suite of diagnostic SQL queries. These guardrails audit the data across three critical risk vectors:
+To protect pipeline accuracy from the reality of messy, high-volume mobile telemetry, I developed a suite of diagnostic SQL queries. These guardrails audit the data across three critical risk vectors: <sub>*[Access the Data Quality Guardrails SQL queries](Analytics_Engineering/Data_Quality_Dashboard.sql)*</sub><br>
 * **Layer 1 - Structural:** Validates primary key uniqueness and hunts for technical duplicates in event logs.
 * **Layer 2 - Integrity:** Guarantees chronological validity (no "time-traveling" events) and verifies funnel completeness to ensure business logic holds at scale.
 * **Layer 3 - Risk & Anomaly:** Implemented a Bot Velocity Check to identify anomalous, high-velocity KYC submissions (completion in <30s), flagging potential fraudulent actors before they contaminate downstream analytics.
