@@ -23,7 +23,6 @@
   * [2. The Silver Layer: Performance & Lineage](#2-the-silver-layer-performance--lineage)
   * [3. Strategic Modelling: Eliminating Survivorship Bias](#3-strategic-modelling-eliminating-survivorship-bias)
   * [4. The Gold Layer: Financial Integrity & Evolution](#4-the-gold-layer-financial-integrity--evolution)
-
 ## Executive Summary 
 
   
@@ -311,13 +310,17 @@ Target the 13,649 users triggering insufficient funds declines with localized, l
 
 > **Architectural Note:** While the physical dataset for this portfolio project is under 300 MB, the pipeline infrastructure, indexing, and modelling are deliberately engineered to simulate and optimize for **petabyte-scale** fintech data streams.
 
+<img src="./Visuals/Data_Lineage.png" alt="Data Lineage" width="850"> 
+
 ### 1. Data Quality Assurance: The Engineering Dashboard
 
-<img src="./Visuals/Data_Quality_Results.png" alt="dashboard" width="700"> 
+<img src="./Visuals/Data_Quality_Results.png" alt="Failed QA Dashboard" width="850"> 
 
-^ **Data Observability in Action:** As expected with raw telemetry, the inbound Bronze data triggers multiple integrity failures—including a webhook retry storm creating duplicate users, and client-side clock skew causing "time-traveling" transactions. The Medallion pipeline below was built specifically to intercept and neutralize these anomalies.
+> **Data Observability in Action:** As expected with raw telemetry, the inbound Bronze data triggers multiple integrity failures—including a webhook retry storm creating duplicate users, and client-side clock skew causing "time-traveling" transactions. The Medallion pipeline below was built specifically to intercept and neutralize these anomalies.
 
-To protect pipeline accuracy from the reality of messy, high-volume mobile telemetry, I developed a suite of diagnostic SQL queries. These guardrails audit the data across three critical risk vectors: <sub>*[Access the Data Quality Guardrails SQL queries](Analytics_Engineering/Data_Quality_Dashboard.sql)*</sub><br>
+To protect pipeline accuracy from the reality of messy, high-volume mobile telemetry, I developed a suite of diagnostic SQL queries. These guardrails audit the data across three critical risk vectors:
+<sub>*[Access the Data Quality Guardrails SQL queries](Analytics_Engineering/Data_Quality_Dashboard.sql)*</sub>
+
 * **Layer 1 - Structural:** Validates primary key uniqueness and hunts for technical duplicates in event logs.
 * **Layer 2 - Integrity:** Guarantees chronological validity (no "time-traveling" events) and verifies funnel completeness to ensure business logic holds at scale.
 * **Layer 3 - Risk & Anomaly:** Implemented a Bot Velocity Check to identify anomalous, high-velocity KYC submissions (completion in <30s), flagging potential fraudulent actors before they contaminate downstream analytics.
