@@ -1,6 +1,8 @@
 # NitroBank-LATAM-Fintech-Growth-Audit 
 
-  
+> **📊 [Access the Live Looker Studio Executive Dashboard Here](insert_your_looker_link_here)**
+
+<img src="./Visuals/image_1f4358.png" alt="Executive Dashboard" width="850">
 
 ### 📑 Table of Contents
 * [Executive Summary](#executive-summary)
