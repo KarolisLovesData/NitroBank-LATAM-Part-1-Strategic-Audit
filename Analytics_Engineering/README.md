@@ -1,1 +1,1 @@
-This folder contains the SQL I wrote to carry out the project from BRONZE layer (raw data) to BI ready insights in Gold Layer
+This folder contains the SQL queries that I wrote to transform the raw data in BRONZE layer into BI ready insights in GOLD layer.
