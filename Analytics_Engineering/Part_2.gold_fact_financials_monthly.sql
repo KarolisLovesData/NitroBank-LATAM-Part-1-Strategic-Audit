@@ -1,9 +1,15 @@
 /* Monthly "North Star" Metrics: Slicing Revenue, Risk, and Speed.
    
-    Business Logic:
-    1. TTV: Time from 'App Open' to 'First Transaction' (The full user journey).
-    2. FX Normalization: Standardized to USD based on Feb 2026 estimates.
-    3. Dimensions: Marketing Source and Country for acquisition performance analysis.
+   PORTFOLIO NOTE - FX RATES:
+   For the scope of this project, FX rates are hardcoded to Feb 2026 estimates to demonstrate logic.
+   In a production environment, I would use a scalable approach like
+   orchestrating a daily pipeline to extract live rates from a currency API into a 'silver_fx_rates' 
+   dimension table, and performing a time-series JOIN on the transaction date.
+
+   Business Logic:
+   1. TTV: Time from 'App Open' to 'First Transaction' (The full user journey).
+   2. FX Normalization: Standardized to USD (see portfolio note above).
+   3. Dimensions: Marketing Source and Country for acquisition performance analysis.
 */ 
 
 CREATE OR REPLACE TABLE gold_fact_financials_monthly AS 
