@@ -96,7 +96,7 @@ enriched_financials AS (
     LEFT JOIN user_first_transaction ft ON m.user_id = ft.user_id  --attaches the very first user transaction 
 )
 
--- 5. Final Gold Table Output (Adjusted for New vs Existing analysis)
+-- 5. Final Gold Table Output 
 SELECT 
     month,
     country,
