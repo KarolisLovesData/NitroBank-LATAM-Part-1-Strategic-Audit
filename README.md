@@ -308,9 +308,9 @@ Target the 13,649 users triggering insufficient funds declines with localized, l
 ## 🔧 Analytics Engineering & Architecture
 <sub>*[Access the BRONZE-->SILVER Transition Queries](Analytics_Engineering/Bronze_to_Silver_Transition.sql)*</sub>
 
-**Stack:** Databricks SQL (Delta Lake) | ELT | Liquid Clustering | Star Schema | Medallion Architecture | Looker Studio | dbt
+**Stack:** Databricks SQL (Delta Lake) | ELT | Medallion Architecture | Liquid Clustering | Data Quality Testing | Looker Studio 
 
-> **Architectural Note:** While the physical dataset for this portfolio project is under 300 MB, the pipeline infrastructure, indexing, and modelling are deliberately engineered to simulate and optimize for **petabyte-scale** fintech data streams.
+> **Architectural Note:** While this portfolio utilizes static SQL scripts to clearly demonstrate the underlying business logic, the pipeline is engineered following **Delta Live Tables (DLT)** design principles. The focus is on defensive data modeling, strict data quality enforcement, and **compute cost optimization** to build a trustworthy and efficient Medallion architecture.
 
 <img src="./Visuals/Data_Lineage.png" alt="Data Lineage" width="850"> 
 
@@ -318,10 +318,16 @@ Target the 13,649 users triggering insufficient funds declines with localized, l
 
 <img src="./Visuals/Data_Quality_Results.png" alt="Failed QA Dashboard" width="850"> 
 
-> **Data Observability in Action:** As expected with raw telemetry, the inbound Bronze data triggers multiple integrity failures—including a webhook retry storm creating duplicate users, and client-side clock skew causing "time-traveling" transactions. The Medallion pipeline below was built specifically to intercept and neutralize these anomalies.
+> **Data Observability in Action:** Raw mobile telemetry is inherently chaotic. As expected, the inbound Bronze data triggers multiple integrity failures—including webhook retry storms creating duplicate users, and client-side clock skew causing "time-traveling" transactions. This pipeline was built specifically to intercept, quarantine, and neutralize these anomalies before they corrupt downstream analytics.
 
-To protect pipeline accuracy from the reality of messy, high-volume mobile telemetry, I developed a suite of diagnostic SQL queries. These guardrails audit the data across three critical risk vectors:
+To protect the integrity of the Silver and Gold layers, I developed a suite of diagnostic SQL guardrails. Serving as a proxy for production DLT Expectations, these tests proactively audit the data across three critical risk vectors:
 <sub>*[Access the Data Quality Guardrails SQL queries](Analytics_Engineering/Data_Quality_Dashboard.sql)*</sub>
+
+### 2. FinOps & Compute Optimization: Liquid Clustering
+
+> **Cost-Conscious Engineering:** In modern cloud data platforms, unoptimized BI queries hitting flat tables will quickly inflate warehouse compute bills. To simulate a production-grade, cost-efficient environment, the Silver layer actively utilizes Databricks Liquid Clustering.
+
+By strategically clustering tables on frequently filtered dimensions (like `country`, `event_name`, and `event_timestamp`), this architecture enables aggressive **data skipping**. This guarantees that downstream Gold layer transformations and end-user Looker Studio dashboards only scan the exact micro-partitions they need, drastically reducing query execution time and overall cloud costs.
 
 * **Layer 1 - Structural:** Validates primary key uniqueness and hunts for technical duplicates in event logs.
 * **Layer 2 - Integrity:** Guarantees chronological validity (no "time-traveling" events) and verifies funnel completeness to ensure business logic holds at scale.
