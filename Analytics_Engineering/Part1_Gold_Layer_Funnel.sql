@@ -24,10 +24,9 @@ GROUP BY country, marketing_source
 ORDER BY cohort_size DESC;      
 
 
-
--- GOLD LAYER: Daily Funnel Performance
+--GOLD LAYER: Daily Funnel Performance
 --This is the query that was used to create BI ready Gold Layer table
--- Strategy: Cohort-based funnel tracking to monitor conversion and velocity
+--Strategy: Cohort-based funnel tracking to monitor conversion and velocity
 
 CREATE OR REPLACE TABLE gold_fact_funnel_daily AS 
 
@@ -56,7 +55,7 @@ user_signups AS (
         u.user_created_at AS account_created_ts,
         CASE WHEN u.user_id IS NOT NULL THEN 1 ELSE 0 END AS has_created_account  --produces a binary result 
     FROM cohort_base c
-    LEFT JOIN silver_users u   --LEFT JOIN used to keep all the people you opened the app to calculate conversion rates 
+    LEFT JOIN silver_users u   --LEFT JOIN used to keep all the users who opened the app to calculate conversion rates 
         ON c.user_id = u.user_id
 ),
 
@@ -85,7 +84,7 @@ funnel_events AS (
 
 final_metrics AS (
     -- 4. MONETIZATION: Link users to their first APPROVED transaction.
-    -- Ensures we only count monetized users originating from our specific traffic cohort.
+    -- Ensures I only count monetized users originating from the specific traffic cohort.
     SELECT 
         f.user_id,
         f.first_open_ts,
@@ -120,7 +119,7 @@ SELECT
     SUM(has_activated) AS users_activated,             
     COUNT(first_trans_ts) AS users_transacted,        
     
-    -- Time-to-Value (Velocity in Hours)/ Convert to epoch, force 0 to prevent negative durations caused by system latency or out-of-order logs., and scale to hours
+    -- Time-to-Value (Velocity in Hours)/ Convert to epoch, force 0 to prevent negative durations caused by system latency or out-of-order logs, and scale to hours
     ROUND(AVG(GREATEST(0, unix_timestamp(account_created_ts) - unix_timestamp(first_open_ts)) / 3600), 2) AS avg_hours_open_to_create,
     ROUND(AVG(GREATEST(0, unix_timestamp(activation_ts) - unix_timestamp(account_created_ts)) / 3600), 2) AS avg_hours_create_to_active,
     ROUND(AVG(GREATEST(0, unix_timestamp(first_trans_ts) - unix_timestamp(activation_ts)) / 3600), 2) AS avg_hours_active_to_value
