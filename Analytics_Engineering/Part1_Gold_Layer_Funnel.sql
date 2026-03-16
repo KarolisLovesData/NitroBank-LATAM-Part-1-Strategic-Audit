@@ -80,7 +80,7 @@ funnel_events AS (
     LEFT JOIN silver_events e 
         ON s.user_id = e.user_id 
         AND e.event_timestamp >= s.first_open_ts  --chronological guardrail, KYC,Activation happens after the app open 
-    GROUP BY 1, 2, 3, 4, 5, 6, 7
+    GROUP BY ALL
 ),
 
 final_metrics AS (
@@ -103,7 +103,7 @@ final_metrics AS (
         ON TRIM(f.user_id) = TRIM(t.user_id)    --cleaned up the user_id column to capture all user ids
         AND UPPER(t.status) = 'APPROVED'  
         AND t.ts_created_at >= f.first_open_ts
-    GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+    GROUP BY ALL
 )
 
 -- 5. DAILY AGGREGATION & VELOCITY CALCULATION
@@ -126,4 +126,4 @@ SELECT
     ROUND(AVG(GREATEST(0, unix_timestamp(first_trans_ts) - unix_timestamp(activation_ts)) / 3600), 2) AS avg_hours_active_to_value
 
 FROM final_metrics
-GROUP BY 1, 2, 3, 4;
+GROUP BY ALL
