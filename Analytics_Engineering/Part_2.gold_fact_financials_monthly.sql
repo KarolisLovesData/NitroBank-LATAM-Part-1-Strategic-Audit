@@ -13,19 +13,24 @@
 */ 
 
 CREATE OR REPLACE TABLE gold_fact_financials_monthly AS 
-
-WITH user_journey_milestones AS (
-    -- 1. Get the Anchor Dates (App Open & Activation) per user
-    -- Groups by user_id to ensure 1 row per user before joining transactions
+WITH filtered_events AS (
+    SELECT 
+        user_id,
+        MIN(CASE WHEN event_name = 'app_open' THEN event_timestamp END) AS first_app_open_ts,
+        MIN(CASE WHEN event_name = 'account_activated' THEN event_timestamp END) AS activation_ts
+    FROM silver_events
+    WHERE event_name IN ('app_open', 'account_activated') --Filter for only the data that matters 
+    GROUP BY 1
+),
+user_journey_milestones AS (
     SELECT 
         u.user_id,
         u.country,
         u.marketing_source,
-        MIN(CASE WHEN e.event_name = 'app_open' THEN e.event_timestamp END) AS first_app_open_ts,     /*exact user entry point in the
-        MIN(CASE WHEN e.event_name = 'account_activated' THEN e.event_timestamp END) AS activation_ts  funnel is established*/
+        e.first_app_open_ts,
+        e.activation_ts
     FROM silver_users u
-    LEFT JOIN silver_events e ON u.user_id = e.user_id
-    GROUP BY 1, 2, 3
+    LEFT JOIN filtered_events e ON u.user_id = e.user_id
 ),
 
 user_first_transaction AS (
@@ -91,29 +96,27 @@ enriched_financials AS (
     LEFT JOIN user_first_transaction ft ON m.user_id = ft.user_id  --attaches the very first user transaction 
 )
 
--- 5. Final Gold Table Output
+-- 5. Final Gold Table Output (Adjusted for New vs Existing analysis)
 SELECT 
     month,
     country,
     marketing_source, 
+    is_new_user, -- Added as a dimension
     
     -- Financial Core
     ROUND(SUM(tpv_usd), 2) AS total_payment_volume_usd,
     ROUND(SUM(revenue_usd), 2) AS gross_revenue_usd,
     COUNT(DISTINCT user_id) AS active_paying_users,
     
-    -- Growth Insight: Revenue split (New vs. Existing)
-    ROUND(SUM(CASE WHEN is_new_user = 1 THEN revenue_usd ELSE 0 END), 2) AS revenue_from_new_users_usd,
-    
-    -- Unit Economics
+    -- Unit Economics (Now automatically calculates per segment)
     ROUND(SUM(revenue_usd) / NULLIF(COUNT(DISTINCT user_id), 0), 2) AS ARPAC_usd,
     
-    -- Speed Insight: Average TTV
+    -- Speed Insight: Average TTV (Will naturally be 0 for existing users)
     ROUND(AVG(user_ttv_hours), 1) AS avg_time_to_value_hours,
     
     -- Efficiency Insight: Take Rate
     ROUND((SUM(revenue_usd) / NULLIF(SUM(tpv_usd), 0)) * 100, 3) AS take_rate_pct
 
 FROM enriched_financials
-GROUP BY 1, 2, 3
-ORDER BY month ASC;
+GROUP BY 1, 2, 3, 4 -- Added is_new_user to the grouping
+ORDER BY month ASC, country, is_new_user DESC;
