@@ -5,6 +5,10 @@
    In a production environment, I would use a scalable approach like
    orchestrating a daily pipeline to extract live rates from a currency API into a 'silver_fx_rates' 
    dimension table, and performing a time-series JOIN on the transaction date.
+   PORTFOLIO NOTE - TIMEZONE HANDLING:
+   All timestamps in this dataset are ingested, stored, and aggregated in UTC. 
+   In a live production environment for LATAM, I would apply localized timezone conversions (e.g., DATE(ts_created_at, 'America/Bogota')) 
+   to ensure daily/monthly revenue cutoffs align perfectly with local business operations.
 
    Business Logic:
    1. TTV: Time from 'App Open' to 'First Transaction' (The full user journey).
