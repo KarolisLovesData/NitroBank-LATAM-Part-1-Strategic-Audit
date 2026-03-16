@@ -310,7 +310,7 @@ Target the 13,649 users triggering insufficient funds declines with localized, l
 
 **Stack:** Databricks SQL (Delta Lake) | ELT | Medallion Architecture | Liquid Clustering | Data Quality Testing | Looker Studio 
 
-> **Architectural Note:** While this portfolio utilizes static SQL scripts to clearly demonstrate the underlying business logic, the pipeline is engineered following **Delta Live Tables (DLT)** design principles. The focus is on defensive data modeling, strict data quality enforcement, and **compute cost optimization** to build a trustworthy and efficient Medallion architecture.
+> **Architectural Note:** While this portfolio utilizes static SQL scripts to clearly demonstrate the underlying business logic, the pipeline is engineered following **Delta Live Tables (DLT)** design principles. The focus is on defensive data modeling, strict data quality enforcement, and **compute cost optimization** to build a trustworthy and efficient Medallion architecture:
 
 <img src="./Visuals/Data_Lineage.png" alt="Data Lineage" width="850"> 
 
