@@ -274,16 +274,24 @@ To ensure Mexico’s high profitability was not masking underlying risks, an ana
 
   
 
-**Phase 1: Launch "Nitro Reserve" (Localized Micro-Credit)** 
+### Phase 1: Strategic Deployment of "Nitro Reserve" (Behavioral Gating)
 
-Target the 13,649 users triggering insufficient funds declines with localized, low-risk credit interventions: 
+Rather than a broad-market rollout to all 13,649 users triggering "Insufficient Funds" declines, NitroBank will implement a **propensity-driven eligibility framework**. By gating credit access behind behavioral signals, we strictly align capital deployment with localized risk profiles and unit economics.
 
-* **Mexico (The Credit-Builder):** Offer a $25 USD (500 MXN) micro-limit card to capture the 85% of Mexicans currently ignored by legacy banks. 
+#### 🇲🇽 Mexico: Bridging the "Trust Gap"
+* **Target Segment:** Users who cleared the KYC "Wall" but remain trapped in the **60.8-hour Time-To-Value (TTV) lag**.
+* **Intervention:** Deploy a **$25 USD (500 MXN) credit-builder card** as a psychological catalyst to convert hesitation into funded accounts.
+* **Objective:** Immediate capture of Mexico’s elite **1.15% Take Rate** and **$5.18 ARPAC** by collapsing the 2.5-day activation delay.
 
-* **Brazil (Secured Limits):** Launch a "Limite Garantido" model, using vault deposits as collateral to clear declined transactions with zero default risk. 
+#### 🇧🇷 Brazil: Collateralized Liquidity
+* **Target Segment:** Users with established **historical vault activity**.
+* **Intervention:** Utilize existing deposits as a behavioral proxy for creditworthiness, offering the **"Limite Garantido"** model to clear transaction declines.
+* **Objective:** Convert Brazil’s massive transaction volume into interest-bearing revenue with **zero systemic default risk**.
 
-* **Colombia (Nanocreditos):** Deploy instant, low-value "lifeline" loans to cover small checkout shortfalls while staying under local interest rate caps. To align with our strategic pivot away from paid hyper-growth (Part 2), this rollout will operate strictly as a low-volume beta focused on improving organic retention. Aggressive scaling will remain gated until we negotiate better local interchange fees. 
-
+#### 🇨🇴 Colombia: Organic Retention Beta
+* **Target Segment:** Users acquired via **Organic or Referral channels** (boasting a **50.1% signup rate**).
+* **Intervention:** Deploy instant, low-value **"Nanocredito"** lifelines to cover minor checkout shortfalls.
+* **Objective:** Prioritize high-loyalty retention via a low-volume beta, strictly gating aggressive scale until local interchange fees are negotiated above the **0.50% baseline**.
   
 
 **Phase 2: Automated UX Recovery** 
