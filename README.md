@@ -235,8 +235,6 @@ While Mexico’s **1.15% Take Rate** is our primary economic driver, unusually h
 
   
 
-**Impact:** Converting declined intent into completed checkouts and interest-bearing revenue. 
-
   
 
 To ensure Mexico’s high profitability was not masking underlying risks, an analysis of **>145,000 transactions** across LATAM was conducted. The results are definitive: Mexico’s **89.36% Approval Rate** proves our highest-margin market is fundamentally healthy. However, a deep dive into **15,296 declines** revealed that **89.2% of failures** are due to *Insufficient Funds*. This transforms a perceived "risk problem" into the perfect launchpad for NitroBank’s first credit product: **Nitro Reserve**. 
