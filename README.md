@@ -233,6 +233,7 @@ While Mexico’s **1.15% Take Rate** is our primary economic driver, unusually h
 
 ## Part 3: Transaction Success & Friction Removal 
 
+<sub>*[Access Transaction Analysis SQL queries](Analytics_Engineering/PART_3_Transaction_Success_and_Friction_Removal.sql)*</sub> 
   
 
   
