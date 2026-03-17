@@ -1,8 +1,5 @@
 
 -- 1. SILVER USERS
--- Logic: Dedupe, Rename, and Cluster by Region/Time
--- Optimization: CLUSTER BY allows fast filtering by country and time
--- 1. SILVER USERS
 -- Logic: Filter for registered users only, dedupe, and cluster for performance.
 -- Strategy: We treat this as a "Pure Dimension" table. Ghost users live in silver_events.
 
