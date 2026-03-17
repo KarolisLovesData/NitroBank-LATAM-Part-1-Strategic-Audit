@@ -1,4 +1,17 @@
---Customer funnel analysis the final quuery for the business for the analysis
+/*
+ * Customer Funnel & Time-to-Value (TTV) Analysis Pipeline
+ 
+ * This script builds and queries a cohort-based tracking model to monitor the end-to-end user journey.
+ * It consists of two primary components:
+  1. Funnel Performance Analysis: A reporting query that calculates step-by-step conversion rates 
+ * (Signup--> KYC--> Approval--> Funding) and global monetization rates, segmented by country and marketing source.
+ 
+ 2. Gold Layer Transformation: A multi-step ETL process that aggregates raw event and transaction logs 
+ * (Silver layer) into a BI-ready daily fact table. It captures distinct funnel milestones and calculates 
+ * the average velocity (time-to-value in hours) between user actions.
+ */
+
+-- Customer funnel analysis the final query for the business for the analysis
 
 SELECT country,
        marketing_source,
@@ -70,8 +83,8 @@ funnel_events AS (
         s.account_created_ts,
         s.has_created_account,
         
-        -- used MAX to essentially flatten the massive log of events a user might have
-        -- MIN is used to capture the very first activation event
+        --MAX used to flatten the massive log of events a user might have
+        --MIN used to capture the very first activation event
         MAX(CASE WHEN e.event_name = 'kyc_submitted' THEN 1 ELSE 0 END) AS has_submitted_kyc,          
         MAX(CASE WHEN e.event_name = 'account_activated' THEN 1 ELSE 0 END) AS has_activated,          
         MIN(CASE WHEN e.event_name = 'account_activated' THEN e.event_timestamp END) AS activation_ts   
@@ -84,7 +97,7 @@ funnel_events AS (
 
 final_metrics AS (
     -- 4. MONETIZATION: Link users to their first APPROVED transaction.
-    -- Ensures I only count monetized users originating from the specific traffic cohort.
+    -- Only monetized users originating from the specific traffic cohort are counted 
     SELECT 
         f.user_id,
         f.first_open_ts,
@@ -99,7 +112,7 @@ final_metrics AS (
         MIN(t.ts_created_at) AS first_trans_ts   --captured the very first transactions
     FROM funnel_events f
     LEFT JOIN silver_transactions t 
-        ON TRIM(f.user_id) = TRIM(t.user_id)    --cleaned up the user_id column to capture all user ids
+        ON TRIM(f.user_id) = TRIM(t.user_id)    --cleaned user_id and status columns to capture all records 
         AND UPPER(t.status) = 'APPROVED'  
         AND t.ts_created_at >= f.first_open_ts
     GROUP BY ALL
