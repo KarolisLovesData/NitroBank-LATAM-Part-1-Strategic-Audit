@@ -274,24 +274,24 @@ To ensure Mexico’s high profitability was not masking underlying risks, an ana
 
   
 
-### Phase 1: Strategic Deployment of "Nitro Reserve" (Behavioral Gating)
+**Phase 1: Strategic Deployment of "Nitro Reserve" (Behavioral Gating)**
 
 Rather than a broad-market rollout to all 13,649 users triggering "Insufficient Funds" declines, NitroBank will implement a **propensity-driven eligibility framework**. By gating credit access behind behavioral signals, we strictly align capital deployment with localized risk profiles and unit economics.
 
-#### 🇲🇽 Mexico: Bridging the "Trust Gap"
-* **Target Segment:** Users who cleared the KYC "Wall" but remain trapped in the **60.8-hour Time-To-Value (TTV) lag**.
-* **Intervention:** Deploy a **$25 USD (500 MXN) credit-builder card** as a psychological catalyst to convert hesitation into funded accounts.
-* **Objective:** Immediate capture of Mexico’s elite **1.15% Take Rate** and **$5.18 ARPAC** by collapsing the 2.5-day activation delay.
+   #### 🇲🇽 Mexico: Bridging the "Trust Gap"
+   * **Target Segment:** Users who cleared the KYC "Wall" but remain trapped in the **60.8-hour Time-To-Value (TTV) lag**.
+   * **Intervention:** Deploy a **$25 USD (500 MXN) credit-builder card** as a psychological catalyst to convert hesitation into funded accounts.
+   * **Objective:** Immediate capture of Mexico’s elite **1.15% Take Rate** and **$5.18 ARPAC** by collapsing the 2.5-day activation delay.
 
-#### 🇧🇷 Brazil: Collateralized Liquidity
-* **Target Segment:** Users with established **historical vault activity**.
-* **Intervention:** Utilize existing deposits as a behavioral proxy for creditworthiness, offering the **"Limite Garantido"** model to clear transaction declines.
-* **Objective:** Convert Brazil’s massive transaction volume into interest-bearing revenue with **zero systemic default risk**.
+   #### 🇧🇷 Brazil: Collateralized Liquidity
+   * **Target Segment:** Users with established **historical vault activity**.
+   * **Intervention:** Utilize existing deposits as a behavioral proxy for creditworthiness, offering the **"Limite Garantido"** model to clear transaction declines.
+   * **Objective:** Convert Brazil’s massive transaction volume into interest-bearing revenue with **zero systemic default risk**.
 
-#### 🇨🇴 Colombia: Organic Retention Beta
-* **Target Segment:** Users acquired via **Organic or Referral channels** (boasting a **50.1% signup rate**).
-* **Intervention:** Deploy instant, low-value **"Nanocredito"** lifelines to cover minor checkout shortfalls.
-* **Objective:** Prioritize high-loyalty retention via a low-volume beta, strictly gating aggressive scale until local interchange fees are negotiated above the **0.50% baseline**.
+   #### 🇨🇴 Colombia: Organic Retention Beta
+   * **Target Segment:** Users acquired via **Organic or Referral channels** (boasting a **50.1% signup rate**).
+   * **Intervention:** Deploy instant, low-value **"Nanocredito"** lifelines to cover minor checkout shortfalls.
+   * **Objective:** Prioritize high-loyalty retention via a low-volume beta, strictly gating aggressive scale until local interchange fees are negotiated above the **0.50% baseline**.
   
 
 **Phase 2: Automated UX Recovery** 
