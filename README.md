@@ -236,7 +236,7 @@ While Mexico’s **1.15% Take Rate** is our primary economic driver, unusually h
 <sub>*[Access Transaction Analysis SQL queries](Analytics_Engineering/PART_3_Transaction_Success_and_Friction_Removal.sql)*</sub> 
   
 
-To ensure Mexico’s high profitability was not masking underlying risks, I analysed **>145,000 transactions** across LATAM. The results are definitive: Mexico’s **89.36% Approval Rate** proves our highest-margin market is fundamentally healthy. However, the analysis of **15,296 declines (10.51% of total transactions)** revealed that **89.2% of failures** are due to *Insufficient Funds*. This transforms a perceived "risk problem" into the perfect launchpad for **NitroBank’s** first credit product: **Nitro Reserve**.
+To ensure Mexico’s high profitability was not masking underlying risks, I analysed **>145,000 transactions** across LATAM. The results are definitive: Mexico’s **89.36% Approval Rate** proves our highest-margin market is fundamentally healthy. However, the analysis of **15,296 declines** revealed that **89.2% of failures** are due to *Insufficient Funds*. This transforms a perceived "risk problem" into the perfect launchpad for **NitroBank’s** first credit product: **Nitro Reserve**.
 
 ### 1. The Data Story: Stability & The Liquidity Wall 
 
@@ -270,7 +270,7 @@ To ensure Mexico’s high profitability was not masking underlying risks, I anal
 
   
 
-**Phase 1: Strategic Deployment of "Nitro Reserve" (Behavioral Gating)**
+**Phase 1: Strategic Deployment of "Nitro Reserve"**
 
 Rather than a broad-market rollout to all 13,649 users triggering "Insufficient Funds" declines, NitroBank will implement a **propensity-driven eligibility framework**. By gating credit access behind behavioral signals, we strictly align capital deployment with localized risk profiles and unit economics.
 
