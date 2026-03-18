@@ -236,10 +236,9 @@ While Mexico’s **1.15% Take Rate** is our primary economic driver, unusually h
 <sub>*[Access Transaction Analysis SQL queries](Analytics_Engineering/PART_3_Transaction_Success_and_Friction_Removal.sql)*</sub> 
   
 
-  
+To ensure Mexico’s high profitability wasn’t masking hidden risks, I analyzed **>145,000 transactions** across LATAM. While the **89.36% approval rate** confirmed a healthy market, the real opportunity lay in the **10.51% decline rate** (15,296 transactions). 
 
-To ensure Mexico’s high profitability was not masking underlying risks, an analysis of **>145,000 transactions** across LATAM was conducted. The results are definitive: Mexico’s **89.36% Approval Rate** proves our highest-margin market is fundamentally healthy. However, a deep dive into **15,296 declines** revealed that **89.2% of failures** are due to *Insufficient Funds*. This transforms a perceived "risk problem" into the perfect launchpad for NitroBank’s first credit product: **Nitro Reserve**. 
-
+By uncovering that **89.2% of these failures** were due to *Insufficient Funds*, I reframed a perceived "risk problem" into a strategic launchpad for **Nitro Reserve**—NitroBank’s first credit product designed to bridge the liquidity gap and turn declines into revenue.
   
 
 ### 1. The Data Story: Stability & The Liquidity Wall 
