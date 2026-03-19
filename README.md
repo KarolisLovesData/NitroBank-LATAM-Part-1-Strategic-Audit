@@ -50,7 +50,7 @@ Commissioned by executive leadership to evaluate **NitroBank**’s expansion acr
 
 This project follows a **Medallion Architecture**. The Entity Relationship Diagram (ERD) below represents the **Silver Layer**, which serves as the cleaned, relational source of truth. Full **Medallion Transformation** flow and **Directed Acyclic Graph (DAG)** can be accessed [🔧 Analytics Engineering & Architecture part.](#-analytics-engineering--architecture) 
 
-  
+**Entity Relationship Diagram:**
 
 <img src="./Visuals/ERD.png" alt="funnel" width="700"> 
 
