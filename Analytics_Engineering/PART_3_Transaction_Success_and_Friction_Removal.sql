@@ -1,8 +1,9 @@
 --PART 3: TRANSACTION SUCCESS & FRICTION REMOVAL 
 
---This query will calculate the total number of transactions, the number of approved transactions, the percentage of approved transactions, the number of declined transactions, the percentage of declined transactions, and the number of unknown transactions for each country and marketing source.
-     
-    select country, 
+/*This query will calculate the total number of transactions, the number of approved transactions, the percentage of approved transactions, 
+  the number of declined transactions, the percentage of declined transactions, and the number of unknown transactions for each country and marketing source.*/ 
+    
+select country, 
     marketing_source,
     COUNT(*) as txn_total,
            COUNT(CASE WHEN status = 'APPROVED' THEN 1 END) as txn_approved,
