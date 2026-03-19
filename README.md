@@ -25,24 +25,19 @@
   * [2. The Silver Layer: Performance & Lineage](#2-the-silver-layer-performance--lineage)
   * [3. Strategic Modelling: Eliminating Survivorship Bias](#3-strategic-modelling-eliminating-survivorship-bias)
   * [4. The Gold Layer: Financial Integrity & Evolution](#4-the-gold-layer-financial-integrity--evolution)
-## Executive Summary 
+## Executive Summary
 
-  
+Commissioned by executive leadership, this three-part strategic audit evaluates the Latin American expansion of **NitroBank**, a rapidly scaling neobank currently serving **Brazil, Mexico, and Colombia**.
 
-Commissioned by executive leadership to evaluate **NitroBank**’s expansion across Latin America, this strategic audit identifies the critical bottlenecks and financial drivers dictating our regional success. By analyzing **over 1 million potential users across Brazil, Mexico, and Colombia** alongside extensive transactional telemetry (January 2024–January 2026), we have isolated specific opportunities to optimize operational efficiency and maximize profitability. The findings and recommended actions are structured across three core areas:
-  
+By analyzing over **1 million potential users** alongside extensive transactional telemetry from January 2024 to January 2026, this report moves past surface-level volume metrics to identify the technical roadblocks, hidden revenue engines, and product innovations required to actually dominate the LATAM fintech landscape.
 
-* **Part 1: Growth & Acquisition:** A diagnostic breakdown of top-of-funnel conversion, identifying a 67% Document Submission "Wall" and the $0 marketing-spend opportunity to unlock explosive user growth by resolving technical KYC crashes to recover 301,500 "stuck" users. 
+The findings and recommended actions are structured across three core areas:
 
-* **Part 2: Unit Economics & Profitability:** An analysis of the "Profitability Paradox," shifting strategy away from low-margin volume toward Mexico’s elite **1.15% Take Rate** and high-LTV referral channels. 
+* **Part 1: Growth & Acquisition:** A diagnostic breakdown of our top-of-funnel conversion. We identified a massive 67% drop-off at Document Submission and outlined a $0 marketing-spend opportunity to unlock explosive user growth by resolving the technical KYC crashes trapping 301,500 high-intent users.
+* **Part 2: Unit Economics & Profitability:** An analysis of our "Profitability Paradox." We outline the strategy to shift our acquisition focus away from low-margin volume and lean heavily into Mexico, our true economic engine boasting an elite 1.15% Take Rate and high-value referral channels.
+* **Part 3: Transaction Success & Friction Removal:** A deep dive into >145,000 transactions validating our market stability. We detail the blueprint to transform "Insufficient Funds" declines—which account for 89.2% of failures—from a perceived risk into a highly profitable micro-credit product line.
 
-* **Part 3: Transaction Success & Friction Removal:** A deep dive into **>145,000 transactions** to validate market stability and transform "Insufficient Funds" declines into a high-margin micro-credit product line. 
-
-  
-
-**Strategic Imperative:** By repairing the KYC ingestion pipeline, pivoting acquisition to Mexico's high-yield segments, and monetizing declined transactions through a new micro-credit product, NitroBank can immediately transition from a low-margin "wallet" into a highly profitable, full-service digital bank. 
-
-  
+**Strategic Imperative:** By repairing the KYC ingestion pipeline, pivoting acquisition spend to Mexico's high-yield segments, and monetizing declined transactions through instant micro-credit, NitroBank can immediately transition from a low-margin "digital wallet" into a highly profitable, full-service bank.
 
 ### Data Architecture & Scope 
 
