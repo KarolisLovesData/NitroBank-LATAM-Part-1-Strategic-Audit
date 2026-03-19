@@ -33,9 +33,11 @@ By analyzing over **1 million potential users** alongside extensive transactiona
 
 The findings and recommended actions are structured across three core areas:
 
-* **Part 1: Growth & Acquisition:** A diagnostic breakdown of our top-of-funnel conversion. We identified a massive 67% drop-off at Document Submission and outlined a $0 marketing-spend opportunity to unlock explosive user growth by resolving the technical KYC crashes trapping 301,500 high-intent users.
-* **Part 2: Unit Economics & Profitability:** An analysis of our "Profitability Paradox." We outline the strategy to shift our acquisition focus away from low-margin volume and lean heavily into Mexico, our true economic engine boasting an elite 1.15% Take Rate and high-value referral channels.
-* **Part 3: Transaction Success & Friction Removal:** A deep dive into >145,000 transactions validating our market stability. We detail the blueprint to transform "Insufficient Funds" declines—which account for 89.2% of failures—from a perceived risk into a highly profitable micro-credit product line.
+* **Part 1: Growth & Acquisition:** A diagnostic breakdown of our top-of-funnel conversion. We identified a massive **67% drop-off** at Document Submission and outlined a **$0 marketing-spend** opportunity to unlock explosive user growth by resolving the technical KYC crashes trapping **301,500 high-intent users**.
+
+* **Part 2: Unit Economics & Profitability:** An analysis of our "Profitability Paradox." We outline the strategy to shift our acquisition focus away from low-margin volume and lean heavily into Mexico, our true economic engine boasting an elite **1.15% Take Rate** and high-value referral channels.
+
+* **Part 3: Transaction Success & Friction Removal:** A deep dive into **>145,000 transactions** validating our market stability. We detail the blueprint to transform "Insufficient Funds" declines—which account for **89.2% of failures**—from a perceived risk into a highly profitable micro-credit product line.
 
 **Strategic Imperative:** By repairing the KYC ingestion pipeline, pivoting acquisition spend to Mexico's high-yield segments, and monetizing declined transactions through instant micro-credit, NitroBank can immediately transition from a low-margin "digital wallet" into a highly profitable, full-service bank.
 
@@ -52,8 +54,7 @@ The audit was carried out following a **Medallion Architecture**. The Entity Rel
 ### Audit Scale & Data Volume 
 
   
-
-* **silver_events** (fact table): **1.62M+** event records processed, capturing detailed user interactions, device specifications, and marketing attribution. 
+* **silver_events** (fact table): **1.62M+ event records** processed (representing **1.05M unique users**), capturing detailed user interactions, device specifications, and marketing attribution.
 
 * **silver_users** (dimension table): **450K+** unique registered accounts analyzed across all active regions to track onboarding and retention. 
 
