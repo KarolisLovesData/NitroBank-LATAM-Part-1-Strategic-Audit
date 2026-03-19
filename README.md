@@ -29,8 +29,7 @@
 
   
 
-This three-part strategic analysis evaluates the expansion and operational efficiency of the neobank **NitroBank** across Latin America. By tracking **over 1 million potential users across Brazil, Mexico, and Colombia** between January 2024 and January 2026, this report identifies the technical bottlenecks, financial drivers, and product innovations required to dominate the LATAM fintech landscape. 
-
+Commissioned by executive leadership to evaluate **NitroBank**’s expansion across Latin America, this strategic audit identifies the critical bottlenecks and financial drivers dictating our regional success. By analyzing **over 1 million potential users across Brazil, Mexico, and Colombia** alongside extensive transactional telemetry (January 2024–January 2026), we have isolated specific opportunities to optimize operational efficiency and maximize profitability. The findings and recommended actions are structured across three core areas:
   
 
 * **Part 1: Growth & Acquisition:** A diagnostic breakdown of top-of-funnel conversion, identifying a 67% Document Submission "Wall" and the $0 marketing-spend opportunity to unlock explosive user growth by resolving technical KYC crashes to recover 301,500 "stuck" users. 
