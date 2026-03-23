@@ -1,6 +1,6 @@
 --PART 3: TRANSACTION SUCCESS & FRICTION REMOVAL 
 
-/*This query will calculate the total number of transactions, the number of approved transactions, the percentage of approved transactions, 
+/*This query calculates the total number of transactions, the number of approved transactions, the percentage of approved transactions, 
   the number of declined transactions, the percentage of declined transactions, and the number of unknown transactions for each country and marketing source.*/ 
     
 select country, 
@@ -16,7 +16,7 @@ select country,
      GROUP BY country, marketing_source
      ORDER BY txn_approved DESC 
 
---This query calculate the number of declined thxns and the number of soft and hard declines for each decline type and reason
+--This query returns the number of declined thxns and the number of soft and hard declines for each decline type and reason
   
   SELECT
        COUNT (*) AS declined_txns,
