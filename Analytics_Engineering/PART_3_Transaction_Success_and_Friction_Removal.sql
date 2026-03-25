@@ -26,7 +26,7 @@ select country,
        COUNT_IF(decline_reason = 'SUSPECTED_FRAUD') AS suspected_fraud_HARD,
        COUNT_IF(decline_reason = 'PIN_RETRY_EXCEEDED') AS pin_retry_exceeded_SOFT,
        COUNT_IF(decline_reason = 'STOLEN_CARD') AS stolen_card_HARD,
-       COUNT_IF(decline_reason = NULL) AS unknown_declines
+       COUNT_IF(decline_reason IS NULL) AS unknown_declines
        FROM silver_transactions
        WHERE status ilike 'DECLINED'
 
