@@ -1,4 +1,4 @@
-# NitroBank-LATAM-Fintech-Growth-Audit 
+# NitroBank-LATAM-01-Strategic-Audit
 
 > **📊 [Access the Live Looker Studio Executive Dashboard Here](insert_your_looker_link_here)**
 
