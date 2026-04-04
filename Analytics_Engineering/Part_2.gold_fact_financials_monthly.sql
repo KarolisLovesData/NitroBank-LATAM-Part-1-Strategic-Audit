@@ -23,7 +23,7 @@ WITH filtered_events AS (
         MIN(CASE WHEN event_name = 'app_open' THEN event_timestamp END) AS first_app_open_ts,
         MIN(CASE WHEN event_name = 'account_activated' THEN event_timestamp END) AS activation_ts
     FROM silver_events
-    WHERE event_name IN ('app_open', 'account_activated') --Filter for only the data that matters 
+    WHERE event_name IN ('app_open', 'account_activated') --Filtered only the data needed
     GROUP BY 1
 ),
 user_journey_milestones AS (
