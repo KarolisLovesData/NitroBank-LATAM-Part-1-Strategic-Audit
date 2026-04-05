@@ -29,7 +29,7 @@
 
 Commissioned by executive leadership, this three-part strategic audit evaluates the Latin American expansion of **NitroBank**, a rapidly scaling neobank currently serving **Brazil, Mexico, and Colombia**.
 
-By analyzing over **1 million potential users** alongside extensive transactional telemetry from January 2024 to January 2026, this report moves past surface-level volume metrics to identify the technical roadblocks, hidden revenue engines, and product innovations required to actually dominate the LATAM fintech landscape.
+By analyzing over **1 million potential users** alongside **145K+** transactions from January 2024 to January 2026, this report moves past surface-level volume metrics to identify the technical roadblocks, hidden revenue engines, and product innovations required to actually dominate the LATAM fintech landscape.
 
 The findings and recommended actions are structured across three core areas:
 
