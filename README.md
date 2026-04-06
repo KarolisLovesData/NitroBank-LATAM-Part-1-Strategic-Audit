@@ -37,7 +37,7 @@ The findings and recommended actions are structured across three core areas:
 
 * **Part 2: Unit Economics & Profitability:** An analysis of our "Profitability Paradox." We outline the strategy to shift our acquisition focus away from low-margin volume and lean heavily into Mexico, our true economic engine boasting an elite **1.15% Take Rate** and high-value referral channels.
 
-* **Part 3: Transaction Success & Friction Removal:** A deep dive into **>145,000 transactions** validating our market stability. We detail the blueprint to transform "Insufficient Funds" declines—which account for **89.2% of failures**—from a perceived risk into a highly profitable micro-credit product line.
+* **Part 3: Transaction Success & Friction Removal:** A deep dive into **>145k transactions** validating our market stability. We detail the blueprint to transform "Insufficient Funds" declines—which account for **89.2% of failures**—from a perceived risk into a highly profitable micro-credit product line.
 
 **Strategic Imperative:** By repairing the KYC ingestion pipeline, pivoting acquisition spend to Mexico's high-yield segments, and monetizing declined transactions through instant micro-credit, NitroBank can immediately transition from a low-margin "digital wallet" into a highly profitable, full-service bank.
 
