@@ -1,14 +1,14 @@
-/*
- * Customer Funnel & Time-to-Value (TTV) Analysis Pipeline
+
+/* Customer Funnel & Time-to-Value (TTV) Analysis Pipeline
  
- * This script builds and queries a cohort-based tracking model to monitor the end-to-end user journey.
- * It consists of two primary components:
-  1. Funnel Performance Analysis: A reporting query that calculates step-by-step conversion rates 
- * (Signup--> KYC--> Approval--> Funding) and global monetization rates, segmented by country and marketing source.
+  This script builds and queries a cohort-based tracking model to monitor the end-to-end user journey.
+  It consists of two primary components:
+  1.Funnel Performance Analysis: A reporting query that calculates step-by-step conversion rates 
+  (Signup--> KYC--> Approval--> Funding) and global monetization rates, segmented by country and marketing source.
  
  2. Gold Layer Transformation: A multi-step ETL process that aggregates raw event and transaction logs 
- * (Silver layer) into a BI-ready daily fact table. It captures distinct funnel milestones and calculates 
- * the average velocity (time-to-value in hours) between user actions.
+    (Silver layer) into a BI-ready daily fact table. It captures distinct funnel milestones and calculates 
+    the average velocity (time-to-value in hours) between user actions.
  */
 
 -- Customer funnel analysis the final query for the business for the analysis
