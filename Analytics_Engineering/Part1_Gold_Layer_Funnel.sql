@@ -112,8 +112,8 @@ final_metrics AS (
         MIN(t.ts_created_at) AS first_trans_ts   --captured the very first transactions
     FROM funnel_events f
     LEFT JOIN silver_transactions t 
-        ON TRIM(f.user_id) = TRIM(t.user_id)    --cleaned user_id and status columns to capture all records 
-        AND UPPER(t.status) = 'APPROVED'  
+        ON f.user_id = t.user_id
+        AND (t.status = 'APPROVED'  
         AND t.ts_created_at >= f.first_open_ts
     GROUP BY ALL
 )
