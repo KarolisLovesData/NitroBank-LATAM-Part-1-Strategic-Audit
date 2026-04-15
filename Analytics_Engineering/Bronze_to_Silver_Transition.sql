@@ -1,7 +1,7 @@
 
 -- 1. SILVER USERS
--- Logic: Filter for registered users only, dedupe, and cluster for performance.
--- Strategy: We treat this as a "Pure Dimension" table. Ghost users live in silver_events.
+-- Logic: Filter for REGISTERED users only, deduplicate, and cluster for performance.
+-- Strategy: Treat this as a "Pure Dimension" table. Ghost users live in silver_events (essential for funnel analysis) 
 
 CREATE OR REPLACE TABLE silver_users 
 CLUSTER BY (country, user_created_at) 
@@ -20,11 +20,11 @@ QUALIFY ROW_NUMBER() OVER (
 ) = 1;
 
 -- 2. SILVER TRANSACTIONS
--- Logic: Dedupe, Rename Timestamp, and Cluster for Time-Range Queries
+-- Logic: Deduplicate, Rename Timestamp, and Cluster for Time-Range Queries
 -- Optimization: CLUSTER BY time is critical for financial reporting
 
 CREATE OR REPLACE TABLE silver_transactions
-CLUSTER BY (ts_created_at, user_id) -- <--- LIQUID CLUSTERING
+CLUSTER BY (ts_created_at, user_id) 
 AS
 SELECT 
     transaction_id,
@@ -36,19 +36,19 @@ SELECT
     decline_reason
 FROM transactions_raw
 QUALIFY ROW_NUMBER() OVER (
-    PARTITION BY transaction_id --filter for unique transactions
+    PARTITION BY transaction_id 
     ORDER BY timestamp DESC
 ) = 1;
 
 
 
 -- 3. SILVER EVENTS 
--- Logic: Generate Surrogate Key (MD5), Dedupe by Content, Cluster by Event Type
--- Optimization: clustering by event type makes queries much faster and efficient
+-- Logic: Generate Surrogate Key (MD5), Deduplicate by Content
+-- Optimization: clustering by country, event_name, event_timestamp 
 
 
 CREATE OR REPLACE TABLE silver_events
-CLUSTER BY (country, event_name, event_timestamp) -- <--- OPTIMIZED LIQUID CLUSTERING
+CLUSTER BY (country, event_name, event_timestamp) 
 AS
 SELECT 
     -- SURROGATE KEY GENERATION
