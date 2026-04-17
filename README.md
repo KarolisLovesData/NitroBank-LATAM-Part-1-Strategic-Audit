@@ -2,11 +2,6 @@
 
 ### Note: This is a comprehensive portfolio project utilizing a simulated enterprise dataset. The metrics, company names, and financial figures were constructed to demonstrate production-grade Analytics Engineering, Medallion Architecture, and business-focused data modeling.
 
-
-<a href="./Visuals/executive_dashboard.png" target="_blank">
-  <img src="./Visuals/executive_dashboard.png" alt="Executive Dashboard" width="850">
-</a>
-
 ### 📑 Table of Contents
 * [Executive Summary](#executive-summary)
   * [Data Architecture & Scope](#data-architecture--scope)
@@ -43,6 +38,13 @@ The findings and recommended actions are structured across three core areas:
 * **Part 3: Transaction Success & Friction Removal:** A deep dive into **>145k transactions** validating our market stability. We detail the blueprint to transform "Insufficient Funds" declines—which account for **89.2% of failures**—from a perceived risk into a highly profitable micro-credit product line.
 
 **Strategic Imperative:** By repairing the KYC ingestion pipeline, pivoting acquisition spend to Mexico's high-yield segments, and monetizing declined transactions through instant micro-credit, NitroBank can immediately transition from a low-margin "digital wallet" into a highly profitable, full-service bank.
+
+### 📊 The Executive Dashboard
+*(A static view of the final metrics compiled from the Gold Layer. Click the image to view the full resolution).*
+
+<a href="./Visuals/executive_dashboard.png" target="_blank">
+  <img src="./Visuals/executive_dashboard.png" alt="Executive Dashboard" width="850">
+</a>
 
 ### Data Architecture & Scope 
 
