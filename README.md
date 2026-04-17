@@ -309,7 +309,7 @@ Rather than a broad-market rollout to all 13,649 users triggering "Insufficient 
 ## 🔧 Analytics Engineering & Architecture
 <sub>*[Access the BRONZE-->SILVER Transition Queries](Analytics_Engineering/Bronze_to_Silver_Transition.sql)*</sub>
 
-**Stack:** Databricks SQL (Delta Lake) | ELT | Medallion Architecture | Liquid Clustering | Data Quality Testing | Looker Studio 
+**Stack:** Databricks SQL (Delta Lake) | ELT | Medallion Architecture | Liquid Clustering | Pyhton | Data Studio 
 
 > **Architectural Note:** While this portfolio utilizes static SQL scripts to clearly demonstrate the underlying business logic, the pipeline is engineered following **Delta Live Tables (DLT)** design principles. The focus is on defensive data modeling, strict data quality enforcement, and **compute cost optimization** to build a trustworthy and efficient Medallion architecture:
 
