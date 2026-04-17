@@ -316,31 +316,29 @@ Rather than a broad-market rollout to all 13,649 users triggering "Insufficient 
 
 <img src="./Visuals/Data_Quality_Results.png" alt="Failed QA Dashboard" width="850"> 
 
-> **Data Observability in Action:** Raw mobile telemetry is inherently chaotic. As expected, the inbound Bronze data triggers multiple integrity failures—including webhook retry storms creating duplicate users, and client-side clock skew causing "time-traveling" transactions. This pipeline was built specifically to intercept, quarantine, and neutralize these anomalies before they corrupt downstream analytics.
+### 🛠️ Analytics Engineering & Data Quality
 
-To protect the integrity of the Silver and Gold layers, I developed a suite of diagnostic SQL guardrails. Serving as a proxy for production DLT Expectations, these tests proactively audit the data across three critical risk vectors:
-<sub>*[Access the Data Quality Guardrails SQL queries](Analytics_Engineering/Data_Quality_Dashboard.sql)*</sub>
+#### 1. Data Observability & Quality Guardrails
+> **Context:** Raw mobile telemetry is inherently chaotic. To protect downstream analytics from webhook retry storms and client-side clock skew, I developed a suite of diagnostic SQL guardrails acting as proxy DLT Expectations.
+> <sub>*[Access the Data Quality Guardrails SQL queries](Analytics_Engineering/Data_Quality_Dashboard.sql)*</sub>
 
-### 2. FinOps & Compute Optimization: Liquid Clustering
+* **Layer 1 (Structural):** Validates primary key uniqueness and flags technical duplicates in the event logs.
+* **Layer 2 (Integrity):** Enforces chronological validity (neutralizing "time-traveling" events) and verifies funnel completeness.
+* **Layer 3 (Risk & Anomaly):** Deployed a Bot Velocity Check to identify high-velocity KYC completions (<30s), flagging potential fraudulent actors before they contaminate business metrics.
 
-> **Cost-Conscious Engineering:** In modern cloud data platforms, unoptimized BI queries hitting flat tables will quickly inflate warehouse compute bills. To simulate a production-grade, cost-efficient environment, the Silver layer actively utilizes Databricks Liquid Clustering.
-
-By strategically clustering tables on frequently filtered dimensions (like `country`, `event_name`, and `event_timestamp`), this architecture enables aggressive **data skipping**. This guarantees that downstream Gold layer transformations and end-user Looker Studio dashboards only scan the exact micro-partitions they need, drastically reducing query execution time and overall cloud costs.
-
-* **Layer 1 - Structural:** Validates primary key uniqueness and looks for technical duplicates in event logs.
-* **Layer 2 - Integrity:** Guarantees chronological validity (no "time-traveling" events) and verifies funnel completeness to ensure business logic holds at scale.
-* **Layer 3 - Risk & Anomaly:** Implemented a Bot Velocity Check to identify anomalous, high-velocity KYC submissions (completion in <30s), flagging potential fraudulent actors before they contaminate downstream analytics.
-
-### 2. The Silver Layer: Performance & Lineage
-* **Precision Deduplication & Quarantine:** To neutralize the anomalies flagged by the QA dashboard, I deployed single-pass `QUALIFY ROW_NUMBER()` logic. This successfully stripped all technical duplicates and strictly filtered out "time-traveling" users, keeping the verified Silver counts perfectly pristine.
+#### 2. The Silver Layer: FinOps & Processing
 * **Deterministic Lineage:** Generated MD5 surrogate keys (user + event + timestamp) to guarantee 100% traceability for raw, ID-less telemetry.
-* **Compute Optimization:** Implemented Liquid Clustering to optimize partition pruning and proactively solve the "Small File Problem." *For >10M row datasets, this layer transitions to dbt incremental models to slash warehouse compute costs.*
+* **FinOps & Compute Optimization:** Strategically utilized Databricks Liquid Clustering on frequently filtered dimensions (`country`, `event_name`, `event_timestamp`). This enables aggressive data skipping, drastically reducing query latency and cloud warehouse costs for downstream Looker Studio dashboards.
+* **Precision Deduplication:** Deployed single-pass `QUALIFY ROW_NUMBER() = 1` logic to strip technical duplicates and filter anomalies flagged by the QA dashboard. 
 
-### 3. Strategic Modelling: Eliminating Survivorship Bias
+> 💡 **Production Consideration: Data Quarantine Strategy**
+> *In this portfolio simulation, the Silver layer aggressively deduplicates records using `QUALIFY ROW_NUMBER() = 1` to optimize compute. In a live enterprise deployment, I would implement a **Quarantine Pattern**. Instead of silently dropping structural fractures, those records would be routed to a `silver_quarantine` table. This ensures 100% Source-to-Warehouse row count reconciliation for financial auditors, while keeping the primary Silver tables pristine for LTV modeling.*
+
+#### 3. Strategic Modelling: Eliminating Survivorship Bias
 * **The "Ghost User" Solution:** Engineered a Denormalized Star Schema to capture the 67% of traffic that drops off pre-registration, persisting Country and Marketing Source directly on the `silver_events` fact table.
 * **Zero-Join BI Analysis:** Empowered **Looker Studio executive dashboards** to analyze unregistered traffic directly from the fact table. This slashes BI query latency and bypasses the compute costs of expensive distributed joins.
 
-### 4. The Gold Layer: Financial Integrity & Evolution
-* **State Machine Enforcement:** Embedded logic to strictly enforce the irreversible sequential flow: KYC → Activation → Spend. Timeline checks guarantee chronological consistency (no spending before account creation).
-* **Audit-Grade Financial Hardening:** To transition this simulation to a live banking environment, hardcoded `CASE` statements for currency conversion would be replaced by a dynamic `LEFT JOIN` on a `dim_exchange_rates` table. Joining on `currency_code` and `DATE(transaction_timestamp)` parses historical purchases against daily market rates, providing the point-in-time auditability required for regulatory compliance.
-* **Reconciliation Audit:** Achieved a <0.02% variance during cross-layer validation between the silver_events tracking table (124,498 users) and the silver_transactions core database (124,471 users), ensuring dashboard metrics map 100% to known entities.
+#### 4. The Gold Layer: Financial Integrity & Evolution
+* **State Machine Enforcement:** Embedded logic to strictly enforce the irreversible sequential flow (KYC → Activation → Spend). Timeline checks guarantee chronological consistency so no spending occurs before account creation.
+* **Audit-Grade Financial Hardening:** Designed the architecture to support dynamic `LEFT JOIN`s on a `dim_exchange_rates` table. Joining on `currency_code` and `DATE(transaction_timestamp)` allows historical purchases to be parsed against daily market rates, providing point-in-time auditability for regulatory compliance.
+* **Reconciliation Audit:** Achieved a <0.02% variance during cross-layer validation between the `silver_events` tracking table (124,498 users) and the `silver_transactions` core database (124,471 users), ensuring dashboard metrics map 100% to known entities.
