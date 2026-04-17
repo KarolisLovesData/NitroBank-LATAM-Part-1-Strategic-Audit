@@ -24,7 +24,7 @@
   * [3. Action Plan: Friction Removal](#3-recommended-action-plan-1)
 * [🔧 Analytics Engineering & Architecture](#-analytics-engineering--architecture)
   * [1. Data Quality Assurance: The Engineering Dashboard](#1-data-quality-assurance-the-engineering-dashboard)
-  * [2. The Silver Layer: Performance & Lineage](#2-the-silver-layer-performance--lineage)
+  * [2. The Silver Layer: FinOps & Processing](#2-the-silver-layer-finops--processing)
   * [3. Strategic Modelling: Eliminating Survivorship Bias](#3-strategic-modelling-eliminating-survivorship-bias)
   * [4. The Gold Layer: Financial Integrity & Evolution](#4-the-gold-layer-financial-integrity--evolution)
 ## Executive Summary
