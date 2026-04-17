@@ -327,7 +327,7 @@ To protect the integrity of the Silver and Gold layers, I developed a suite of d
 
 By strategically clustering tables on frequently filtered dimensions (like `country`, `event_name`, and `event_timestamp`), this architecture enables aggressive **data skipping**. This guarantees that downstream Gold layer transformations and end-user Looker Studio dashboards only scan the exact micro-partitions they need, drastically reducing query execution time and overall cloud costs.
 
-* **Layer 1 - Structural:** Validates primary key uniqueness and hunts for technical duplicates in event logs.
+* **Layer 1 - Structural:** Validates primary key uniqueness and looks for technical duplicates in event logs.
 * **Layer 2 - Integrity:** Guarantees chronological validity (no "time-traveling" events) and verifies funnel completeness to ensure business logic holds at scale.
 * **Layer 3 - Risk & Anomaly:** Implemented a Bot Velocity Check to identify anomalous, high-velocity KYC submissions (completion in <30s), flagging potential fraudulent actors before they contaminate downstream analytics.
 
