@@ -3,7 +3,7 @@
 ### Note: This is a comprehensive portfolio project utilizing a simulated enterprise dataset. The metrics, company names, and financial figures were constructed to demonstrate production-grade Analytics Engineering, Medallion Architecture, and business-focused data modeling.
 
 
-<a href="./Visuals/executive_dashboard.pdf" target="_blank">
+<a href="./Visuals/executive_dashboard.png" target="_blank">
   <img src="./Visuals/executive_dashboard.png" alt="Executive Dashboard" width="850">
 </a>
 
