@@ -1,7 +1,5 @@
 # NitroBank-LATAM-01-Strategic-Audit
-
-### Note: This is a comprehensive portfolio project utilizing a simulated enterprise dataset. The metrics, company names, and financial figures were constructed to demonstrate production-grade Analytics Engineering, Medallion Architecture, and business-focused data modeling.
-
+**NOTE:** This is a comprehensive portfolio project utilizing a simulated enterprise dataset. The metrics, company names, and financial figures were constructed to demonstrate production-grade Analytics Engineering, Medallion Architecture, and business-focused data modeling.
 ### 📑 Table of Contents
 * [Executive Summary](#executive-summary)
   * [Data Architecture & Scope](#data-architecture--scope)
