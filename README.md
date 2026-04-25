@@ -1,26 +1,15 @@
 # NitroBank-LATAM-01-Strategic-Audit
 **NOTE:** This is a comprehensive portfolio project utilizing a simulated enterprise dataset. The metrics, company names, and financial figures were constructed to demonstrate production-grade Analytics Engineering, Medallion Architecture, and business-focused data modeling.
+
 ### 📑 Table of Contents
 * [Executive Summary](#executive-summary)
   * [Data Architecture & Scope](#data-architecture--scope)
   * [Audit Scale & Data Volume](#audit-scale--data-volume)
 * [Part 1: Growth and Acquisition](#part-1-growth-and-acquisition)
-  * [1. Retention vs. Onboarding Failure](#1-the-divide-elite-retention-vs-onboarding-failure)
-  * [2. Strategic Diagnosis: The DROP-OFF](#2-strategic-diagnosis-the-drop-off)
-  * [3. Action Plan: Growth](#3-action-plan)
 * [Part 2: Unit Economics & Profitability](#part-2-unit-economics--profitability)
-  * [1. The Profitability Paradox](#1-the-profitability-paradox)
-  * [2. Rethinking LTV vs. CAC](#2-strategic-analysis-rethinking-ltv-vs-cac)
-  * [3. Action Plan: Profitability](#3-recommended-action-plan)
-* [Part 3: Transaction Success & Friction](#part-3-transaction-success--friction-removal)
-  * [1. Stability & The Liquidity Wall](#1-the-data-story-stability--the-liquidity-wall)
-  * [2. From Declines to Revenue](#2-strategic-analysis-from-declines-to-revenue)
-  * [3. Action Plan: Friction Removal](#3-recommended-action-plan-1)
+* [Part 3: Transaction Success & Friction Removal](#part-3-transaction-success--friction-removal)
 * [🔧 Analytics Engineering & Architecture](#-analytics-engineering--architecture)
-  * [1. Data Quality Assurance: The Engineering Dashboard](#1-data-quality-assurance-the-engineering-dashboard)
-  * [2. The Silver Layer: FinOps & Processing](#2-the-silver-layer-finops--processing)
-  * [3. Strategic Modelling: Eliminating Survivorship Bias](#3-strategic-modelling-eliminating-survivorship-bias)
-  * [4. The Gold Layer: Financial Integrity & Evolution](#4-the-gold-layer-financial-integrity--evolution)
+
 ## Executive Summary
 
 Commissioned by executive leadership, this three-part strategic audit evaluates the Latin American expansion of **NitroBank**, a rapidly scaling neobank currently serving **Brazil, Mexico, and Colombia**.
@@ -29,10 +18,8 @@ By analyzing over **1 million potential users** alongside **145K+** transactions
 
 The findings and recommended actions are structured across three core areas:
 
-* **Part 1: Growth & Acquisition:** A diagnostic breakdown of our top-of-funnel conversion. We identified a massive **67% drop-off** at Document Submission and outlined a **$0 marketing-spend** opportunity to unlock explosive user growth by resolving the technical KYC crashes trapping **301,500 high-intent users**.
-
-* **Part 2: Unit Economics & Profitability:** An analysis of our "Profitability Paradox." We outline the strategy to shift our acquisition focus away from low-margin volume and lean heavily into Mexico, our true economic engine boasting an elite **1.15% Take Rate** and high-value referral channels.
-
+* **Part 1: Growth & Acquisition:** A diagnostic breakdown of our top-of-funnel conversion. We identified a massive **67% drop-off** at Document Submission and outlined a **$0 marketing-spend** opportunity to unlock explosive user growth by resolving technical KYC crashes.
+* **Part 2: Unit Economics & Profitability:** An analysis of our "Profitability Paradox." We outline the strategy to shift acquisition focus away from low-margin volume and lean heavily into Mexico, our true economic engine boasting an elite **1.15% Take Rate**.
 * **Part 3: Transaction Success & Friction Removal:** A deep dive into **>145k transactions** validating our market stability. We detail the blueprint to transform "Insufficient Funds" declines—which account for **89.2% of failures**—from a perceived risk into a highly profitable micro-credit product line.
 
 **Strategic Imperative:** By repairing the KYC ingestion pipeline, pivoting acquisition spend to Mexico's high-yield segments, and monetizing declined transactions through instant micro-credit, NitroBank can immediately transition from a low-margin "digital wallet" into a highly profitable, full-service bank.
@@ -46,268 +33,95 @@ The findings and recommended actions are structured across three core areas:
 
 ### Data Architecture & Scope 
 
-  
 The audit was carried out following a **Medallion Architecture**. The Entity Relationship Diagram (ERD) below represents the **Silver Layer**, which serves as the cleaned, relational source of truth. Full **Medallion Transformation** flow and **Directed Acyclic Graph (DAG)** can be accessed in [🔧 Analytics Engineering & Architecture part.](#-analytics-engineering--architecture) 
 
-
-<img src="./Visuals/ERD.png" alt="funnel" width="700"> 
-
-  
+<img src="./Visuals/ERD.png" alt="ERD" width="800"> 
 
 ### Audit Scale & Data Volume 
 
-  
 * **silver_events** (fact table): **1.62M+ event records** processed (representing **1.05M unique users**), capturing detailed user interactions, device specifications, and marketing attribution.
-
 * **silver_users** (dimension table): **450K+** unique registered accounts analyzed across all active regions to track onboarding and retention. 
-
 * **silver_transactions** (fact table): **145K+** transaction records processed, tracking payment volume, approval rates, and decline triggers. 
 
-  
+***
 
-## Part 1: Growth and Acquisition 
+# Part 1: Growth and Acquisition 
 
-  
+### The Divide: Elite Retention vs. Onboarding Failure 
+**Stakeholder:** Head of Growth &nbsp;|&nbsp; **Priority:** 🔴 CRITICAL
 
-<sub>*[Access the Gold Layer SQL Pipeline used to generate these funnel insights](Analytics_Engineering/Part1_Gold_Layer_Funnel.sql)*</sub> 
+**📊 Key Metrics:**
+* **The KYC Wall:** 67% drop-off (~301,500 users) at Document Submission.
+* **Elite Retention:** 90.3% of users fund their accounts once clearing the KYC wall.
+* **Top-of-Funnel Contrast:** Colombia yields a 50.1% organic signup rate but only a 13.8% monetization rate, while "Unknown OS" traffic yields a staggering 26.8% monetization rate.
 
-  
+**The Insight:** NitroBank has exceptional product-market fit, but a single operational bottleneck is trapping massive revenue. The 67% KYC drop-off is practically identical across Brazil, Mexico, and Colombia, ruling out localized trust issues. With a heavily Android user base, this universal failure points to a severe technical crash (likely an Android Camera SDK loop) during document upload, artificially starving our user acquisition.
+<br>**[Access SQL Queries](Analytics_Engineering/Part1_Gold_Layer_Funnel.sql)**
+<br>
 
-### 1. The Divide: Elite Retention vs. Onboarding Failure 
+<img src="./Visuals/users_funnel.png" alt="Funnel" width="600"> 
 
-  
+**Strategic Action:**
+1. **Technical Sprint:** Isolate KYC module timeouts and crashes by Device Model and Network Type to solve for LATAM's volatile mobile data environments.
+2. **Incentive Restructuring:** Move the reward trigger from "KYC Completion" to "First Account Funding," replacing generic USD offers with psychologically substantial, localized tiers (e.g., 500 MXN, 50 BRL).
+3. **Gated Recovery:** Deploy an A/B recovery campaign to the 301,500 "stuck" users *only* after confirming the SDK UI crashes are resolved.
 
-NitroBank has an exceptional product-market fit, but a single operational bottleneck is trapping massive, zero-CAC revenue. Optimizing our onboarding to an industry-standard 60% completion rate will trigger explosive bottom-up growth with **$0 in additional marketing spend.** 
+**Business Impact:** Optimizing our onboarding to an industry-standard 60% completion rate triggers explosive bottom-up growth with **$0 in additional marketing spend.**
 
-  
+# Part 2: Unit Economics & Profitability 
 
-* **The KYC Wall:** We are losing **67%** of our acquired leads (~301,500) precisely at Document Submission. 
+### The Profitability Paradox & The "Trust Gap"
+**Stakeholder:** CFO & Head of Strategy &nbsp;|&nbsp; **Priority:** 🟠 HIGH
 
-* **Elite Retention:** The intent is there. Once users clear that KYC wall, a staggering **90.3%** fund their accounts almost immediately. 
+**📊 Key Metrics:**
+* **Total Payment Volume (TPV):** $56.3M processed globally.
+* **The Engine (Mexico):** 1.15% Take Rate and $5.18 Average Revenue Per Active Customer (ARPAC).
+* **The Trap (Colombia):** 0.50% Take Rate (lowest global margin).
+* **The Trust Gap:** Mexican users exhibit a critical 60.8-hour Time-to-Value lag (2.5 days to first deposit).
 
-* **Top-of-Funnel Inefficiency:** We are currently subsidizing high-bounce traffic on Facebook Ads globally (27.9% signup rate) while under-leveraging top-of-funnel conversion winners like Instagram Ads (53.6%) and Organic Search (50.2%). However, **acquisition cost is only half the equation.** Before aggressively cutting the Facebook budget, we must map these specific acquisition channels to downstream user behaviour to ensure we aren't accidentally cutting off a low-converting but high-spending demographic. 
+**The Insight:** Volume does not inherently equal profit. While Colombia drives high user intent, scaling there will compress overall profit margins. Mexico is our true economic engine, processing less than half of Brazil's volume but generating significantly higher margins. However, Mexican users suffer a 2.5-day activation delay, proving they hesitate to deposit their first dollar until they have vetted the platform’s reliability.
+<br>**[Access SQL Queries](Analytics_Engineering/Part_2.gold_fact_financials_monthly.sql)**
+<br>
 
-* **The "Hidden Gem":** Colombia drives our lowest traffic volume but yields top-tier intent (50.1% signup rate) and our highest Global Monetization Rate (13.8%), making it prime for scaled top-of-funnel investment. 
+<img src="./Visuals/efficiency_heatmap.png" alt="Heatmap" width="600"> 
 
-  
+**Strategic Action:**
+1. **Bridge the Trust Gap:** Launch a "Day 1 Funding Match" in Mexico (e.g., deposit $10, get $2) to pull forward initial deposits and collapse the 60.8-hour activation delay.
+2. **Subsidize "The Whales":** Increase referral bonuses by 50%. The elite unit economics of this channel will easily absorb the higher CAC.
+3. **Ring-Fence Ad Spend:** Shift paid marketing away from Colombia (moving to organic-led) and aggressively reallocate the Facebook Ad budget exclusively to Mexican acquisition to capture the $5.31 ARPAC.
 
-<img src="./Visuals/users_funnel.png" alt="funnel" width="700"> 
+**Business Impact:** Maximizes sustainable profit margins by pivoting Customer Acquisition Cost (CAC) directly toward high-LTV regions and high-value referral channels.
 
-  
+# Part 3: Transaction Success & Friction Removal 
 
-### 2. Strategic Diagnosis: The DROP-OFF 
+### From Declines to Credit Revenue 
+**Stakeholder:** Head of Product &nbsp;|&nbsp; **Priority:** 🟠 HIGH
 
-  
+**📊 Key Metrics:**
+* **Approval Rate:** 89.36% in Mexico (mirroring Brazil/Colombia stability).
+* **Decline Volume:** 15,296 total failed transactions.
+* **The Liquidity Wall:** 89.2% of failures (13,649 transactions) were solely due to *Insufficient Funds*.
 
-* **Ruling Out Culture & Psychology:** The KYC drop-off is practically identical across Brazil (33.1%), Mexico (33.2%), and Colombia (33.0%). High-intent organic users fail at the same rate. This is definitively not a localized trust or motivation issue. 
+**The Insight:** High margins in Mexico are built on sustainable behavior, not excessive risk, proven by a stable ~10.5% global decline rate. More importantly, an "Insufficient Funds" decline is not a prevented loss—it is a highly qualified lead. Users are at the point of sale, ready to transact. By failing to provide instant liquidity, NitroBank is missing out on both interchange fees and interest-bearing revenue.
+<br>**[Access SQL Queries](Analytics_Engineering/PART_3_Transaction_Success_and_Friction_Removal.sql)**
+<br>
 
-* **The Primary Suspect (Technical Failure):** With an overwhelmingly Android user base (e.g., 523k Android vs. 105k iOS in Brazil), this universal failure points to a severe technical crash—likely an Android Camera SDK or UI loop during document upload. 
+<img src="./Visuals/Declined_transactions.png" alt="Declines" width="600"> 
 
-* **The Telemetry Blind Spot:** A cohort of ~32,000 "Unknown OS" users boasts a 100% Signup Rate and a staggering **26.8% Monetization Rate** (vs. Android's 11.6%). This signals bypassed telemetry (likely Web-to-App handoffs or API partners) and represents a highly profitable untapped channel. 
+**Strategic Action:** Deploy "Nitro Reserve" via a propensity-driven credit framework:
+1. **Mexico (Trust Bridge):** Deploy a $25 USD credit-builder card to users trapped in the 60.8-hour Time-To-Value lag, converting hesitation into funded accounts.
+2. **Brazil (Collateralized Liquidity):** Utilize historical vault activity as a behavioral proxy to offer "Limite Garantido," clearing transaction declines with zero systemic default risk.
+3. **Colombia (Organic Beta):** Deploy instant, low-value "Nanocredito" lifelines to cover minor checkout shortfalls to prioritize high-loyalty retention.
 
-  
+**Business Impact:** Converting just 20% of "Insufficient Funds" declines (~2,700 transactions) instantly boosts active TPV and transforms NitroBank from a low-margin digital wallet into a highly profitable, full-service bank.
 
-### 3. Action plan 
-
-  
-
-**Phase 1: The Technical "Fix It" Sprint (Days 1–7)** 
-
-* **Crash Telemetry Audit:** Isolate KYC module timeouts and crashes by **Device Model, OS, and Network Type** to solve for LATAM's volatile mobile data environments. 
-
-* **Granular Funnel Tracking:** Implement screen-by-screen drop-off logs (ID Front/Back/Selfie) and monitor **"Activation Lag"** to pinpoint the exact friction point in the Android SDK. 
-
-  
-
-**Phase 2: Data-Driven Marketing Reallocation** 
-
-* **LTV Validation:** Before diverting the **Facebook Ads budget** (27.9% signup) to Instagram or Organic, map cohort-specific **Take Rates** and **LTV** to ensure we aren't cutting a low-converting but high-spending demographic. 
-
-* **Conditional Shift:** Transition spend only once high-value profitability is confirmed in alternative channels. 
-
-  
-
-**Phase 3: The Activation & Recovery Campaign** 
-
-* **Incentive Restructuring:** Move the reward trigger from "KYC Completion" to **"First Account Funding"** to protect the ROI baseline and ensure revenue-generating behaviour. 
-
-* **Correct the ROI Baseline:** Do not assume the 90.3% organic funding rate will apply to an incentivized cohort. Users motivated by cash bonuses inherently show higher immediate churn and lower long-term funding rates. 
-
-* **Deploy Localized Tiers & Messaging:** Replace the generic $5 USD offer with localized, psychologically round numbers (in the Spanish or Portuguese if the account was created in these languages) that feel native and substantial in each market: 
-
-  
-
-<img src="./Visuals/incentive_tiers.png" alt="Incentive tiers" width="350"> 
-
-  
-
-* **Gated A/B Testing:** Deploy a recovery campaign to the **301,500 "Stuck" users**. It is critical to maintain a strict hold on this spend until Phase 1 validates that the technical UI crashes are resolved. 
-
-  
-
-### 4. Looking Ahead: Bridging To Part 2 
-
-  
-
-While fixing the KYC bottleneck resolves the volume equation, user acquisition means nothing without profitability. Part 2 shifts from funnel volume to financial health, analysing Total Payment Volume (TPV), Take Rates, and Average Revenue Per Active Customer (ARPAC) to validate NitroBank's true economic engines in LATAM. 
-
-  
-
-## Part 2: Unit Economics & Profitability 
-
-  
-
-<sub>*[Access Monthly Financials Gold Layer SQL queries](Analytics_Engineering/Part_2.gold_fact_financials_monthly.sql)*</sub> 
-
-  
-
-Volume does not inherently equal profit. While Part 1 identified how to recover 301,000+ users, an analysis of **$56.3M in Total Payment Volume (TPV)** reveals that the "conversion gem" (Colombia) is actually our weakest revenue generator. To maximize NitroBank's financial health, we must pivot toward Mexico, our true economic engine, which boasts a **1.15% Take Rate** and an **ARPAC of $5.18**—more than double any other market. 
-
-  
-
-### 1. The Profitability Paradox 
-
-  
-
-* **The Mexican Efficiency:** Mexico processes less than half the volume of Brazil ($16.1M vs. $35.2M TPV) but generates significantly higher margins. Its 1.15% Take Rate makes it the most efficient market in the portfolio. 
-
-* **The Whale Channel (Referrals):** Referral users are harder to acquire but hold the highest ARPAC ($3.76) and the fastest Time to Value (45.7 hours). They are our most lucrative and loyal user base. 
-
-* **The Colombia Trap:** Despite high user intent, Colombia is a low-margin environment with only a 0.50% Take Rate. Scaling here without better interchange fees will compress overall profit margins. 
-
-* **The Mexican Trust Gap:** Despite being our most profitable demographic, Mexican users exhibit a critical 60.8-hour Time To Value lag—nearly double Brazil’s 38 hours. Since Mexico’s SPEI network provides 24/7 instantaneous settlement, this 2.5-day delay is a UX and psychological failure rather than a technical one. This "Trust Gap" confirms that while Mexican users have high intent, they are hesitating to deposit their first dollar until they have vetted the platform’s reliability. 
-
-  
-
-### 2. Strategic Analysis: Rethinking LTV vs. CAC 
-
-  
-
-* **The Geo-Arbitrage Opportunity:** Mexico’s $5.18 ARPAC (2.5x Colombia’s) justifies a significantly higher Customer Acquisition Cost (CAC) while maintaining highly profitable unit economics. 
-
-* **Channel-Specific Unit Economics:** Though globally inefficient, Facebook Ads are a localized goldmine in Mexico, yielding an elite $5.31 ARPAC (second only to Referrals). We must ring-fence our Facebook budget exclusively for Mexican acquisition. However, before deployment, we must calculate the exact CAC for this specific segment to verify the $5.31 ARPAC supports a sustainable, profitable LTV:CAC margin at scale. 
-
-  
-
-<img src="./Visuals/efficiency_heatmap.png" alt="heatmap" width="700"> 
-
-  
-
-### 3. Recommended Action Plan 
-
-  
-
-**Phase 1: The Mexican Activation Sprint** 
-
-To capture Mexico's high-ARPAC revenue faster, we must pivot from technical fixes to trust-building interventions. The objective is to collapse the 60.8-hour activation lag and convert user hesitation into funded accounts. 
-
-* **Trust Intervention:** Deploy Mexico-specific onboarding cues to directly address the 2.5-day trust gap. 
-
-* **Incentivize Speed:** Launch a "Day 1 Funding Match" (e.g., deposit $10, get $2) to pull forward initial deposits and establish immediate Time-to-Value (TTV). 
-
-  
-
-**Phase 2: The Referral Overhaul** 
-
-* **Subsidize "The Whales":** Increase the referral bonus payout by 50%. The elite unit economics of this channel will easily absorb the higher CAC, driving faster acquisition of high-spending, high-intent users. 
-
-  
-
-**Phase 3: Strategic Pivot in Colombia** 
-
-* **Pause Paid Hyper-Growth:** Shift Colombia entirely to a product-led organic strategy. Aggressive ad spend will not yield venture-scale returns until we negotiate better local interchange fees to lift the baseline 0.50% Take Rate. 
-
-  
-
-### 4. Looking Ahead: The Risk Factor 
-
-  
-
-While Mexico’s **1.15% Take Rate** is our primary economic driver, unusually high margins in emerging markets often signal underlying financial risk. Part 3 will analyze transaction declines and behavioral proxies to determine if these margins are sustainable, or if we are inadvertently taking on toxic volume. 
-
-  
-
-## Part 3: Transaction Success & Friction Removal 
-
-<sub>*[Access Transaction Analysis SQL queries](Analytics_Engineering/PART_3_Transaction_Success_and_Friction_Removal.sql)*</sub> 
-  
-
-To ensure Mexico’s high profitability was not masking underlying risks, I analysed **>145k transactions** across LATAM. The results are definitive: Mexico’s **89.36% Approval Rate** proves our highest-margin market is fundamentally healthy. However, the analysis of **15,296 declines** revealed that **89.2% of failures** are due to *Insufficient Funds*. This transforms a perceived "risk problem" into the perfect launchpad for **NitroBank’s** first credit product: **Nitro Reserve**.
-
-### 1. The Data Story: Stability & The Liquidity Wall 
-
-  
-
-* **Sustainable Margins:** Mexico’s 89.36% Approval Rate mirrors Brazil (89.6%) and Colombia (89.2%), confirming that high margins are built on sustainable user behavior, not excess risk. 
-
-* **Global Security Parity:** A consistent ~10.5% decline rate across three distinct macroeconomic environments proves our fraud telemetry is stable and reliable. 
-
-* **The Liquidity Wall:** 13,649 transactions were blocked solely because wallets were empty. Purchasing intent is currently outpacing user deposits, leaving massive interchange revenue on the table. 
-
-* **The Churn Risk:** Secondary declines like `PIN_RETRY_EXCEEDED` (1,001) and `SUSPECTED_FRAUD` (311) create high-friction "hard blocks" that lead to immediate app abandonment. 
-
-  
-
-<img src="./Visuals/Declined_transactions.png" alt="declines" width="700"> 
-
-  
-
-### 2. Strategic Analysis: From Declines to Revenue 
-
-  
-
-* **The Ultimate Qualified Lead:** An "Insufficient Funds" decline is not a prevented loss—it is a highly qualified lead for a credit product. Users are at the point of sale, card in hand, ready to transact. By failing to provide instant liquidity, NitroBank is missing out on both interchange fees and interest-bearing revenue. 
-
-* **The Risk-to-Opportunity Shift:** By converting these failed checkouts into micro-loans, we don't just save a transaction; we deepen the primary bank relationship. This allows NitroBank to move from a basic "Wallet" model into a highly profitable "Full-Service Bank" ecosystem. 
-
-  
-
-### 3. Recommended Action Plan 
-
-  
-
-**Phase 1: Strategic Deployment of "Nitro Reserve"**
-
-Rather than a broad-market rollout to all 13,649 users triggering "Insufficient Funds" declines, NitroBank will implement a **propensity-driven eligibility framework**. By gating credit access behind behavioral signals, we strictly align capital deployment with localized risk profiles and unit economics.
-
-   #### 🇲🇽 Mexico: Bridging the "Trust Gap"
-   * **Target Segment:** Users who cleared the KYC "Wall" but remain trapped in the **60.8-hour Time-To-Value (TTV) lag**.
-   * **Intervention:** Deploy a **$25 USD (500 MXN) credit-builder card** as a psychological catalyst to convert hesitation into funded accounts.
-   * **Objective:** Immediate capture of Mexico’s elite **1.15% Take Rate** and **$5.18 ARPAC** by collapsing the 2.5-day activation delay.
-
-   #### 🇧🇷 Brazil: Collateralized Liquidity
-   * **Target Segment:** Users with established **historical vault activity**.
-   * **Intervention:** Utilize existing deposits as a behavioral proxy for creditworthiness, offering the **"Limite Garantido"** model to clear transaction declines.
-   * **Objective:** Convert Brazil’s massive transaction volume into interest-bearing revenue with **zero systemic default risk**.
-
-   #### 🇨🇴 Colombia: Organic Retention Beta
-   * **Target Segment:** Users acquired via **Organic or Referral channels** (boasting a **50.1% signup rate**).
-   * **Intervention:** Deploy instant, low-value **"Nanocredito"** lifelines to cover minor checkout shortfalls.
-   * **Objective:** Prioritize high-loyalty retention via a low-volume beta, strictly gating aggressive scale until local interchange fees are negotiated above the **0.50% baseline**.
-  
-
-**Phase 2: Automated UX Recovery** 
-
-* **Biometric Resets:** For `PIN_RETRY_EXCEEDED`, trigger an immediate push notification with a biometric reset link to seamlessly bypass friction. 
-
-* **Interactive Fraud Alerts:** For `SUSPECTED_FRAUD`, deploy an "Instant Verification" alert so users can verify and retry legitimate transactions rather than suffering a silent block. 
-
-  
-
-### Business Impact & Final Conclusion 
-
-  
-
-* **Immediate Uplift:** Converting just 20% of "Insufficient Funds" declines (~2,700 transactions) via micro-credit instantly boosts active TPV and introduces a lucrative, high-margin interest stream. 
-
-* **The Blueprint:** NitroBank now has a complete, data-backed roadmap: Fix the onboarding "Wall" (Part 1), double down on high-value Mexican acquisition (Part 2), and unlock credit-led growth via transaction recovery (Part 3). 
-
-  
+***
 
 ## 🔧 Analytics Engineering & Architecture
-<sub>*[Access the BRONZE-->SILVER Transition Queries](Analytics_Engineering/Bronze_to_Silver_Transition.sql)*</sub>
 
-**Stack:** Databricks SQL (Delta Lake) | ELT | Medallion Architecture | Liquid Clustering | Pyhton | Data Studio 
+<br>**[Access SQL Queries](Analytics_Engineering/Bronze_to_Silver_Transition.sql)**
+
+**Stack:** Databricks SQL (Delta Lake) | ELT | Medallion Architecture | Liquid Clustering | Python | Looker Studio 
 
 > **Architectural Note:** While this portfolio utilizes static SQL scripts to clearly demonstrate the underlying business logic, the pipeline is engineered following **Delta Live Tables (DLT)** design principles. The focus is on defensive data modeling, strict data quality enforcement, and **compute cost optimization** to build a trustworthy and efficient Medallion architecture:
 
@@ -321,7 +135,7 @@ Rather than a broad-market rollout to all 13,649 users triggering "Insufficient 
 
 #### 1. Data Observability & Quality Guardrails
 > **Context:** Raw mobile telemetry is inherently chaotic. To protect downstream analytics from webhook retry storms and client-side clock skew, I developed a suite of diagnostic SQL guardrails acting as proxy DLT Expectations.
-> <sub>*[Access the Data Quality Guardrails SQL queries](Analytics_Engineering/Data_Quality_Dashboard.sql)*</sub>
+> <br>**[Access SQL Queries](Analytics_Engineering/Data_Quality_Dashboard.sql)**
 
 * **Layer 1 (Structural):** Validates primary key uniqueness and flags technical duplicates in the event logs.
 * **Layer 2 (Integrity):** Enforces chronological validity (neutralizing "time-traveling" events) and verifies funnel completeness.
