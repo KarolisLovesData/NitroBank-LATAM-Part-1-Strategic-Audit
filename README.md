@@ -117,7 +117,7 @@ The audit was carried out following a **Medallion Architecture**. The Entity Rel
 
 ***
 
-## 🔧 Analytics Engineering & Architecture
+# 🔧 Analytics Engineering & Architecture
 
 **Stack:** Databricks SQL (Delta Lake) | ELT | Medallion Architecture | Liquid Clustering | Python | Looker Studio | **[Access SQL Queries](Analytics_Engineering/Bronze_to_Silver_Transition.sql)**
 
@@ -133,7 +133,7 @@ Raw mobile telemetry is inherently chaotic. To protect downstream analytics from
 
 * **Technical Integrity Enforcement:** Strictly validates primary key uniqueness to flag technical duplicates, while simultaneously enforcing chronological validity to neutralize "time-traveling" events and verify funnel completeness.
 * **Risk & Anomaly Detection:** Deployed a Bot Velocity Check to identify high-velocity KYC completions (<30s), flagging potential fraudulent actors before they contaminate business metrics.
-#### 2. The Silver Layer: FinOps & Processing
+### 2. The Silver Layer: FinOps & Processing
 * **Deterministic Lineage:** Generated MD5 surrogate keys (user + event + timestamp) to guarantee 100% traceability for raw, ID-less telemetry.
 * **FinOps & Compute Optimization:** Strategically utilized Databricks Liquid Clustering on frequently filtered dimensions (`country`, `event_name`, `event_timestamp`). This enables aggressive data skipping, drastically reducing query latency and cloud warehouse costs for downstream Looker Studio dashboards.
 * **Precision Deduplication:** Deployed single-pass `QUALIFY ROW_NUMBER() = 1` logic to strip technical duplicates and filter anomalies flagged by the QA dashboard. 
@@ -141,11 +141,11 @@ Raw mobile telemetry is inherently chaotic. To protect downstream analytics from
 > **Production Consideration: Data Quarantine Strategy**
 > *In this portfolio simulation, the Silver layer aggressively deduplicates records using `QUALIFY ROW_NUMBER() = 1` to optimize compute. In a live enterprise deployment, I would implement a **Quarantine Pattern**. Instead of silently dropping structural fractures, those records would be routed to a `silver_quarantine` table. This ensures 100% Source-to-Warehouse row count reconciliation for financial auditors, while keeping the primary Silver tables pristine for LTV modeling.*
 
-#### 3. Strategic Modelling: Eliminating Survivorship Bias
+### 3. Strategic Modelling: Eliminating Survivorship Bias
 * **The "Ghost User" Solution:** Engineered a Denormalized Star Schema to capture the 67% of traffic that drops off pre-registration, persisting Country and Marketing Source directly on the `silver_events` fact table.
 * **Zero-Join BI Analysis:** Empowered **Looker Studio executive dashboards** to analyze unregistered traffic directly from the fact table. This slashes BI query latency and bypasses the compute costs of expensive distributed joins.
 
-#### 4. The Gold Layer: Financial Integrity & Evolution
+### 4. The Gold Layer: Financial Integrity & Evolution
 * **State Machine Enforcement:** Embedded logic to strictly enforce the irreversible sequential flow (KYC → Activation → Spend). Timeline checks guarantee chronological consistency so no spending occurs before account creation.
 * **Audit-Grade Financial Hardening:** Designed the architecture to support dynamic `LEFT JOIN`s on a `dim_exchange_rates` table. Joining on `currency_code` and `DATE(transaction_timestamp)` allows historical purchases to be parsed against daily market rates, providing point-in-time auditability for regulatory compliance.
 * **Reconciliation Audit:** Achieved a <0.02% variance during cross-layer validation between the `silver_events` tracking table (124,498 users) and the `silver_transactions` core database (124,471 users), ensuring dashboard metrics map 100% to known entities.
