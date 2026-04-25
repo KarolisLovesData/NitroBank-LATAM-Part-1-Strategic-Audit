@@ -117,19 +117,21 @@ The audit was carried out following a **Medallion Architecture**. The Entity Rel
 
 ***
 
-
 ## 🔧 Analytics Engineering & Architecture
 
 **Stack:** Databricks SQL (Delta Lake) | ELT | Medallion Architecture | Liquid Clustering | Python | Looker Studio | **[Access SQL Queries](Analytics_Engineering/Bronze_to_Silver_Transition.sql)**
 
-> **Architectural Note:** While this portfolio utilizes static SQL scripts to clearly demonstrate the underlying business logic, the pipeline is engineered following **production-grade ELT** design principles. The focus is on defensive data modeling, strict data quality enforcement, and **compute cost optimization** to build a trustworthy and efficient Medallion architecture:
+While this portfolio utilizes static SQL scripts to demonstrate the underlying business logic, the pipeline is engineered following **production-grade ELT** design principles. The core focus is on defensive data modeling, strict data quality enforcement, and **compute cost optimization** to build a trustworthy and efficient Medallion architecture.
 
-<img src="./Visuals/Data_Lineage.png" alt="Data Lineage" width="700"> 
+<img src="./Visuals/Data_Lineage.png" alt="Data Lineage" width="700"> 
 
-#### Data Observability & Quality Guardrails
-> **Context:** Raw mobile telemetry is inherently chaotic. To protect downstream analytics from webhook retry storms and client-side clock skew, I developed a suite of diagnostic SQL guardrails. These automated expectations strictly enforce primary key uniqueness and flag technical duplicates before data enters the Silver layer. **[Access SQL Queries](Analytics_Engineering/Data_Quality_Dashboard.sql)**
+### 1. Data Observability & Quality Assurance
 
-* **Integrity Enforcement:** Enforces chronological validity (neutralizing "time-traveling" events) and verifies funnel completeness.
+<img src="./Visuals/Data_Quality_Results.png" alt="Failed QA Dashboard" width="850"> 
+
+Raw mobile telemetry is inherently chaotic. To protect downstream analytics from webhook retry storms and client-side clock skew, I developed a suite of diagnostic SQL guardrails that act as automated data quality expectations before data ever reaches the Silver layer. **[Access SQL Queries](Analytics_Engineering/Data_Quality_Dashboard.sql)**
+
+* **Technical Integrity Enforcement:** Strictly validates primary key uniqueness to flag technical duplicates, while simultaneously enforcing chronological validity to neutralize "time-traveling" events and verify funnel completeness.
 * **Risk & Anomaly Detection:** Deployed a Bot Velocity Check to identify high-velocity KYC completions (<30s), flagging potential fraudulent actors before they contaminate business metrics.
 #### 2. The Silver Layer: FinOps & Processing
 * **Deterministic Lineage:** Generated MD5 surrogate keys (user + event + timestamp) to guarantee 100% traceability for raw, ID-less telemetry.
