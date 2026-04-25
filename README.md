@@ -126,17 +126,11 @@ The audit was carried out following a **Medallion Architecture**. The Entity Rel
 
 <img src="./Visuals/Data_Lineage.png" alt="Data Lineage" width="700"> 
 
-### 1. Data Quality Assurance: The Engineering Dashboard
+#### Data Observability & Quality Guardrails
+> **Context:** Raw mobile telemetry is inherently chaotic. To protect downstream analytics from webhook retry storms and client-side clock skew, I developed a suite of diagnostic SQL guardrails. These automated expectations strictly enforce primary key uniqueness and flag technical duplicates before data enters the Silver layer. **[Access SQL Queries](Analytics_Engineering/Data_Quality_Dashboard.sql)**
 
-<img src="./Visuals/Data_Quality_Results.png" alt="Failed QA Dashboard" width="850"> 
-
-#### 1. Data Observability & Quality Guardrails
-> **Context:** Raw mobile telemetry is inherently chaotic. To protect downstream analytics from webhook retry storms and client-side clock skew, I developed a suite of diagnostic SQL guardrails acting as automated data quality expectations. **[Access SQL Queries](Analytics_Engineering/Data_Quality_Dashboard.sql)**
-
-* **Layer 1 (Structural):** Validates primary key uniqueness and flags technical duplicates in the event logs.
-* **Layer 2 (Integrity):** Enforces chronological validity (neutralizing "time-traveling" events) and verifies funnel completeness.
-* **Layer 3 (Risk & Anomaly):** Deployed a Bot Velocity Check to identify high-velocity KYC completions (<30s), flagging potential fraudulent actors before they contaminate business metrics.
-
+* **Integrity Enforcement:** Enforces chronological validity (neutralizing "time-traveling" events) and verifies funnel completeness.
+* **Risk & Anomaly Detection:** Deployed a Bot Velocity Check to identify high-velocity KYC completions (<30s), flagging potential fraudulent actors before they contaminate business metrics.
 #### 2. The Silver Layer: FinOps & Processing
 * **Deterministic Lineage:** Generated MD5 surrogate keys (user + event + timestamp) to guarantee 100% traceability for raw, ID-less telemetry.
 * **FinOps & Compute Optimization:** Strategically utilized Databricks Liquid Clustering on frequently filtered dimensions (`country`, `event_name`, `event_timestamp`). This enables aggressive data skipping, drastically reducing query latency and cloud warehouse costs for downstream Looker Studio dashboards.
