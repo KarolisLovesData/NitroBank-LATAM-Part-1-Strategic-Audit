@@ -129,10 +129,22 @@ The audit was carried out following a **Medallion Architecture**. The Entity Rel
 
 <img src="./Visuals/Data_Quality_Results.png" alt="Failed QA Dashboard" width="850"> 
 
+## 🔧 Analytics Engineering & Architecture
+
+**Stack:** Databricks SQL (Delta Lake) | ELT | Medallion Architecture | Liquid Clustering | Python | Looker Studio | **[Access SQL Queries](Analytics_Engineering/Bronze_to_Silver_Transition.sql)**
+
+> **Architectural Note:** While this portfolio utilizes static SQL scripts to clearly demonstrate the underlying business logic, the pipeline is engineered following **production-grade ELT** design principles. The focus is on defensive data modeling, strict data quality enforcement, and **compute cost optimization** to build a trustworthy and efficient Medallion architecture:
+
+<img src="./Visuals/Data_Lineage.png" alt="Data Lineage" width="850"> 
+
+### 1. Data Quality Assurance: The Engineering Dashboard
+
+<img src="./Visuals/Data_Quality_Results.png" alt="Failed QA Dashboard" width="850"> 
+
 ### 🛠️ Analytics Engineering & Data Quality
 
 #### 1. Data Observability & Quality Guardrails
-> **Context:** Raw mobile telemetry is inherently chaotic. To protect downstream analytics from webhook retry storms and client-side clock skew, I developed a suite of diagnostic SQL guardrails acting as proxy DLT Expectations. **[Access SQL Queries](Analytics_Engineering/Data_Quality_Dashboard.sql)**
+> **Context:** Raw mobile telemetry is inherently chaotic. To protect downstream analytics from webhook retry storms and client-side clock skew, I developed a suite of diagnostic SQL guardrails acting as automated data quality expectations. **[Access SQL Queries](Analytics_Engineering/Data_Quality_Dashboard.sql)**
 
 * **Layer 1 (Structural):** Validates primary key uniqueness and flags technical duplicates in the event logs.
 * **Layer 2 (Integrity):** Enforces chronological validity (neutralizing "time-traveling" events) and verifies funnel completeness.
@@ -143,7 +155,7 @@ The audit was carried out following a **Medallion Architecture**. The Entity Rel
 * **FinOps & Compute Optimization:** Strategically utilized Databricks Liquid Clustering on frequently filtered dimensions (`country`, `event_name`, `event_timestamp`). This enables aggressive data skipping, drastically reducing query latency and cloud warehouse costs for downstream Looker Studio dashboards.
 * **Precision Deduplication:** Deployed single-pass `QUALIFY ROW_NUMBER() = 1` logic to strip technical duplicates and filter anomalies flagged by the QA dashboard. 
 
-> 💡 **Production Consideration: Data Quarantine Strategy**
+> **Production Consideration: Data Quarantine Strategy**
 > *In this portfolio simulation, the Silver layer aggressively deduplicates records using `QUALIFY ROW_NUMBER() = 1` to optimize compute. In a live enterprise deployment, I would implement a **Quarantine Pattern**. Instead of silently dropping structural fractures, those records would be routed to a `silver_quarantine` table. This ensures 100% Source-to-Warehouse row count reconciliation for financial auditors, while keeping the primary Silver tables pristine for LTV modeling.*
 
 #### 3. Strategic Modelling: Eliminating Survivorship Bias
