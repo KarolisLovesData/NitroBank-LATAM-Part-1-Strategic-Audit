@@ -118,7 +118,6 @@ The audit was carried out following a **Medallion Architecture**. The Entity Rel
 ***
 
 ## 🔧 Analytics Engineering & Architecture
-
 <br>**[Access SQL Queries](Analytics_Engineering/Bronze_to_Silver_Transition.sql)**
 
 **Stack:** Databricks SQL (Delta Lake) | ELT | Medallion Architecture | Liquid Clustering | Python | Looker Studio 
