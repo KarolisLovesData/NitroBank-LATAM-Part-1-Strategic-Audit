@@ -118,9 +118,8 @@ The audit was carried out following a **Medallion Architecture**. The Entity Rel
 ***
 
 ## 🔧 Analytics Engineering & Architecture
-<br>**[Access SQL Queries](Analytics_Engineering/Bronze_to_Silver_Transition.sql)**
 
-**Stack:** Databricks SQL (Delta Lake) | ELT | Medallion Architecture | Liquid Clustering | Python | Looker Studio 
+**Stack:** Databricks SQL (Delta Lake) | ELT | Medallion Architecture | Liquid Clustering | Python | Looker Studio | **[Access SQL Queries](Analytics_Engineering/Bronze_to_Silver_Transition.sql)**
 
 > **Architectural Note:** While this portfolio utilizes static SQL scripts to clearly demonstrate the underlying business logic, the pipeline is engineered following **Delta Live Tables (DLT)** design principles. The focus is on defensive data modeling, strict data quality enforcement, and **compute cost optimization** to build a trustworthy and efficient Medallion architecture:
 
@@ -133,8 +132,7 @@ The audit was carried out following a **Medallion Architecture**. The Entity Rel
 ### 🛠️ Analytics Engineering & Data Quality
 
 #### 1. Data Observability & Quality Guardrails
-> **Context:** Raw mobile telemetry is inherently chaotic. To protect downstream analytics from webhook retry storms and client-side clock skew, I developed a suite of diagnostic SQL guardrails acting as proxy DLT Expectations.
-> <br>**[Access SQL Queries](Analytics_Engineering/Data_Quality_Dashboard.sql)**
+> **Context:** Raw mobile telemetry is inherently chaotic. To protect downstream analytics from webhook retry storms and client-side clock skew, I developed a suite of diagnostic SQL guardrails acting as proxy DLT Expectations. **[Access SQL Queries](Analytics_Engineering/Data_Quality_Dashboard.sql)**
 
 * **Layer 1 (Structural):** Validates primary key uniqueness and flags technical duplicates in the event logs.
 * **Layer 2 (Integrity):** Enforces chronological validity (neutralizing "time-traveling" events) and verifies funnel completeness.
