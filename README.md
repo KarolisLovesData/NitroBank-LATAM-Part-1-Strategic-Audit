@@ -39,7 +39,7 @@ The audit was carried out following a **Medallion Architecture**. The Entity Rel
 
 ### Audit Scale & Data Volume 
 
-* **silver_events** (fact table): **1.62M+ event records** processed (representing **1.05M unique users**), capturing detailed user interactions, device specifications, and marketing attribution.
+* **silver_events** (fact table): **1.62M+ web event records** processed (representing **1.05M unique users**), capturing detailed user interactions, device specifications, and marketing attribution.
 * **silver_users** (dimension table): **450K+** unique registered accounts analyzed across all active regions to track onboarding and retention. 
 * **silver_transactions** (fact table): **145K+** transaction records processed, tracking payment volume, approval rates, and decline triggers. 
 
