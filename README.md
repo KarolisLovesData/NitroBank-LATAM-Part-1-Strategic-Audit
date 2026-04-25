@@ -130,8 +130,6 @@ The audit was carried out following a **Medallion Architecture**. The Entity Rel
 
 <img src="./Visuals/Data_Quality_Results.png" alt="Failed QA Dashboard" width="850"> 
 
-### 🛠️ Analytics Engineering & Data Quality
-
 #### 1. Data Observability & Quality Guardrails
 > **Context:** Raw mobile telemetry is inherently chaotic. To protect downstream analytics from webhook retry storms and client-side clock skew, I developed a suite of diagnostic SQL guardrails acting as automated data quality expectations. **[Access SQL Queries](Analytics_Engineering/Data_Quality_Dashboard.sql)**
 
