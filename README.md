@@ -125,7 +125,7 @@ While this portfolio utilizes static SQL scripts to demonstrate the underlying b
 
 <img src="./Visuals/Data_Lineage.png" alt="Data Lineage" width="700"> 
 
-### 1. Data Observability & Quality Assurance
+### 1. Data Observability & Quality Assurance Dashboard 
 
 <img src="./Visuals/Data_Quality_Results.png" alt="Failed QA Dashboard" width="850"> 
 
