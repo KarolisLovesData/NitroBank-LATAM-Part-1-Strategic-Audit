@@ -117,17 +117,6 @@ The audit was carried out following a **Medallion Architecture**. The Entity Rel
 
 ***
 
-## 🔧 Analytics Engineering & Architecture
-
-**Stack:** Databricks SQL (Delta Lake) | ELT | Medallion Architecture | Liquid Clustering | Python | Looker Studio | **[Access SQL Queries](Analytics_Engineering/Bronze_to_Silver_Transition.sql)**
-
-> **Architectural Note:** While this portfolio utilizes static SQL scripts to clearly demonstrate the underlying business logic, the pipeline is engineered following **Delta Live Tables (DLT)** design principles. The focus is on defensive data modeling, strict data quality enforcement, and **compute cost optimization** to build a trustworthy and efficient Medallion architecture:
-
-<img src="./Visuals/Data_Lineage.png" alt="Data Lineage" width="850"> 
-
-### 1. Data Quality Assurance: The Engineering Dashboard
-
-<img src="./Visuals/Data_Quality_Results.png" alt="Failed QA Dashboard" width="850"> 
 
 ## 🔧 Analytics Engineering & Architecture
 
@@ -135,7 +124,7 @@ The audit was carried out following a **Medallion Architecture**. The Entity Rel
 
 > **Architectural Note:** While this portfolio utilizes static SQL scripts to clearly demonstrate the underlying business logic, the pipeline is engineered following **production-grade ELT** design principles. The focus is on defensive data modeling, strict data quality enforcement, and **compute cost optimization** to build a trustworthy and efficient Medallion architecture:
 
-<img src="./Visuals/Data_Lineage.png" alt="Data Lineage" width="850"> 
+<img src="./Visuals/Data_Lineage.png" alt="Data Lineage" width="700"> 
 
 ### 1. Data Quality Assurance: The Engineering Dashboard
 
