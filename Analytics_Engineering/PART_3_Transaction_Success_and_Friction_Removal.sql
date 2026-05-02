@@ -1,8 +1,8 @@
-/* Geographic & Channel Performance: 
-These queries evaluate transaction health across different markets and acquisition channels. 
-This view identifies where conversion is strongest and highlights potential friction 
-points in the user journey. [Used COUNT_IF for radability instead of CASE WHEN]
-*/ 
+/**
+ * MARKET AUTHORIZATION RATES
+ * PURPOSE: Maps transaction success across geographies and acquisition channels 
+ * to pinpoint regional friction and evaluate incoming traffic quality.
+ */ 
 SELECT 
     country, 
     marketing_source,
@@ -17,11 +17,11 @@ LEFT JOIN silver_users USING(user_id)
 GROUP BY country, marketing_source
 ORDER BY txn_approved DESC;
 
-/* Decline Root-Cause Analysis: 
-A deep dive into failed payments to distinguish between recoverable "Soft" declines 
-(like low funds) and permanent "Hard" declines (like stolen cards). 
-Essential for understanding why revenue is being left on the table.
-*/
+/**
+ * REVENUE LEAKAGE & RISK ANALYSIS
+ * PURPOSE: Categorizes payment failures into recoverable (Soft) vs. terminal (Hard) 
+ * declines to inform automated retry logic and direct fraud ops strategies.
+ */
 SELECT
     COUNT(*) AS declined_txns,
     COUNT_IF(decline_type = 'SOFT') AS soft_declines,
