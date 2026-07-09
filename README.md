@@ -2,8 +2,6 @@
 
 **NOTE:** This is a comprehensive portfolio project utilizing a simulated enterprise dataset. The metrics, company names, and financial figures were constructed to demonstrate production-grade Analytics Engineering, Medallion Architecture, and business-focused data modeling.
 
-## ⚡ Project Snapshot
-* **Role:** Analytics Engineer
 * **Core Stack:** Databricks SQL (Delta Lake), Python, Looker Studio
 * **Architecture:** Medallion (Bronze / Silver / Gold), ELT, Liquid Clustering
 
