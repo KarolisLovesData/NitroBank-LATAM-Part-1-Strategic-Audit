@@ -78,9 +78,12 @@ The audit was carried out following a **Medallion Architecture**. The ERD below 
 * **Total Payment Volume (TPV):** $56.3M processed globally.
 * **The Engine (Mexico):** 1.15% Take Rate and $5.18 Average Revenue Per Active Customer (ARPAC).
 * **The Trap (Colombia):** 0.50% Take Rate (lowest global margin).
-* **The Trust Gap:** Mexican users exhibit a critical 60.8-hour Time-to-Value lag (2.5 days to first deposit).
+* **Activation Latency:** Mexican users exhibit a **critical 60.8-hour Time-to-Value (TTV) lag** between KYC clearance and first deposit.
+  
+**Insight:** Volume does not equal profit. Colombia drives high signups but **compresses margins**.**Mexico is our true economic engine** (highest global ARPAC), but suffers a **60.8-hour activation lag**. Because Mexico's SPEI banking network is instant, this delay is **entirely behavioral**—a **"Trust Gap"** where highly profitable users hesitate to deposit until they vet the platform.
 
-**Insight:** Volume does not inherently equal profit. While Colombia drives high user intent, scaling there compresses margins. Mexico is our true economic engine, but Mexican users suffer a 2.5-day activation delay, proving they hesitate to deposit until they have vetted the platform’s reliability. 🔗 **[Access SQL Queries](Analytics_Engineering/Part_2.gold_fact_financials_monthly.sql)**
+
+🔗 **[Access SQL Queries](Analytics_Engineering/Part_2.gold_fact_financials_monthly.sql)**
 
 <img src="./Visuals/efficiency_heatmap.png" alt="Heatmap" width="600"> 
 
